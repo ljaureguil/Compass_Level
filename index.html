@@ -1220,9 +1220,10 @@ var y=Math.sin (i)*r+cy
 }
 
 function drawL(ctx, cx, cy, r,e){
-var w=e*r-cx, h=3*r-cy;
-e=3*Math.PI/180;
-
+var w=3*r-cx, h=3*r-cy;
+e=e*Math.PI/180;
+var canvas=ctx.canvas
+textarea.value=e;
 ////ctx.save();
 //ctx.translate((w+ofx)/2,(h+ofy)/2);
 //ctx.rotate(f+Math.PI/2);
@@ -1242,7 +1243,7 @@ e=3*Math.PI/180;
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
 var i=0;
-f=e;
+var f=e;
     ctx.beginPath();
 ctx.moveTo(cx,cy);
     ctx.arc(cx, cy, r,i,f);
