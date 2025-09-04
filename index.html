@@ -178,7 +178,8 @@ button{
 
 <script>
 var renderCodes="";
-var ctx = canvas.getContext("2d");
+var ctx = canvas.getContext("2d"),ctxv = canvasv.getContext("2d"),ctxh = canvash.getContext("2d"),ctxb = canvasb.getContext("2d");
+
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
@@ -1062,9 +1063,9 @@ var color="rgba(50,255,50,.5)"
 var ofx=0, ofy=0, r=canvas.height/2-5, cx=r+ofx, cy=r+ofy, o={} , di=0, ch=false,v=0;
      ctx = canvas.getContext('2d');
 prepareCom(ctx);
-prepareLevV(ctx);
-prepareLevH(ctx);
-prepareLevB(ctx)
+prepareLevV(ctxv);
+prepareLevH(ctxh);
+prepareLevB(ctxb)
 /*     ctx.width=500;
 ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -1130,17 +1131,18 @@ ctx.fillText("Zenith: "+v, 3, r*2);
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 
-ctxv.clearRect(0,0,canvasv.width,canvasv.height)
+//ctxv.clearRect(0,0,canvasv.width,canvasv.height)
 
-drawL(ctxv,cx,cy,r,i,f)
+drawL(ctxv,cx,cy,r,evt.gamma)
 
-ctxh.clearRect(0,0,canvash.width,canvash.height)
 
-drawL(ctxh,cx,cy,r,i,f)
+//ctxh.clearRect(0,0,canvash.width,canvash.height)
 
-ctxv.clearRect(0,0,canvasb.width,canvasb.height)
+drawL(ctxh,cx,cy,r,evt.beta)
 
-drawL(ctxb,cx,cy,r,i,f)
+//ctxv.clearRect(0,0,canvasb.width,canvasb.height)
+
+drawL(ctxb,cx,cy,r,evt.alpha)
 
 }
 
@@ -1217,26 +1219,29 @@ var y=Math.sin (i)*r+cy
     ctx.fill();
 }
 
-function drawL(ctx, cx, cy, r,i,f){
+function drawL(ctx, cx, cy, r,e){
 var w=3*r-cx, h=3*r-cy
 
-ctx.save();
-ctx.translate((w+ofx)/2,(h+ofy)/2);
-ctx.rotate(f+Math.PI/2);
+////ctx.save();
+//ctx.translate((w+ofx)/2,(h+ofy)/2);
+//ctx.rotate(f+Math.PI/2);
 
 
 
 
 //ctx.drawImage(img,-(w+ofx)/2,-(h+ofy)/2,w+ofx,h+ofy);
 
-ctx.restore();
+//ctx.restore();
 
 
-ctx.save ()
-ctx.globalAlpha = 0.25;
+//ctx.save ()
+//ctx.globalAlpha = 0.25;
 //ctx.drawImage(img,ofx,ofy,w+ofx,h+ofy);
-ctx.restore ()
+//ctx.restore ()
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
+var i=0;
+f=e;
     ctx.beginPath();
 ctx.moveTo(cx,cy);
     ctx.arc(cx, cy, r,i,f);
@@ -1350,20 +1355,23 @@ ctx.translate(50,5);
 
 }
 function prepareLevV(ctx){
+
  ctx.width=500;
 ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
-img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
-img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.restore ()
-ctx.save()
-ctx.translate(50,5);
+//img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
+//img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
+ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+//ctx.restore ()
+//ctx.save()
+//ctx.translate(50,5);
+drawL(ctx,100,100,100,1)
 
 
 };
 function prepareLevH(ctx){
 
+ctx.clearRect(0,0,ctx.width,ctx.height)
  ctx.width=500;
 ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -1373,6 +1381,10 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 //ctx.restore ()
 //ctx.save()
 //ctx.translate(50,5);
+
+drawL(ctx,100,100,100,4)
+
+
 };
 
 function prepareLevB(ctx){
@@ -1386,7 +1398,7 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 //ctx.restore ()
 //ctx.save()
 //ctx.translate(50,5);
-
+drawL(ctx,100,100,100,2)
     
 }
 
