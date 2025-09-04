@@ -964,6 +964,8 @@ function insertTx(v){
 <script>
 
 
+
+function inicapp(){
 pba={x:0,y:0,z:0},arp=[];
 container.actualpoint={};
 container.innerHTML=`
@@ -1133,7 +1135,7 @@ textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 //ctxv.clearRect(0,0,canvasv.width,canvasv.height)
 
-drawL(ctxv,cx,cy,r,evt.gamma)
+drawL(ctxv,cx,cy,r,v);//evt.gamma
 
 
 //ctxh.clearRect(0,0,canvash.width,canvash.height)
@@ -1404,6 +1406,8 @@ drawL(ctx,100,100,100,2)
     
 }
 
+
+}
 
 
 
