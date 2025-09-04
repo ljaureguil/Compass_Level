@@ -96,16 +96,29 @@ button{
 
 <button  onclick="procesar(editor.value)">Process</button>
 <button id="onmen" onclick="if(menu.style.display==='block'){menu.style.display='none';this.style.background='#eeeeee'}else {menu.style.display='block';this.style.background='#00ff00'}">Menu</button>
-<button class="cbo" onclick="ress.prepend(textarea);coo.scrollLeft = 0;">T</button>
-<button class="cbo" onclick="ress.prepend(canvas);coo.scrollLeft = 0;">C</button>
+<button class="cbo" onclick="ress.prepend(textarea);coo.scrollLeft = 0;">Txt</button>
+
+
+<button class="cbo" onclick="ress.prepend(canvas);coo.scrollLeft = 0;">Com</button>
+<button class="cbo" onclick="ress.prepend(canvasv);coo.scrollLeft = 0;">LeV</button>
+<button class="cbo" onclick="ress.prepend(canvash);coo.scrollLeft = 0;">LeH</button>
+
+<button class="cbo" onclick="ress.prepend(canvasb);coo.scrollLeft = 0;">LeB</button>
+
 <button class="cbo" onclick="ress.prepend(can3d);coo.scrollLeft = 0;">3</button>
 <button class="cbo" onclick="ress.prepend(container);coo.scrollLeft = 0;">D</button>
 
 
 <div id="coo">
 <div id="ress">
+    <canvas id="canvas" class="els">canvas</canvas>
+       <canvas id="canvasv" class="els">canvas</canvas>
+        <canvas id="canvash" class="els">canvas</canvas>
+    <canvas id="canvasb" class="els">canvas</canvas>
+
+
 <textarea id="textarea" class="els" placeholder=" texarea"></textarea>
-<canvas id="canvas" class="els">canvas</canvas>
+
 <canvas id="can3d" class="els">3d canvas</canvas>
 <div id="container" class="els" >div testing</div>
 
@@ -1048,35 +1061,28 @@ arp.push(o)
 var color="rgba(50,255,50,.5)"
 var ofx=0, ofy=0, r=canvas.height/2-5, cx=r+ofx, cy=r+ofy, o={} , di=0, ch=false,v=0;
      ctx = canvas.getContext('2d');
-ctx.width=500;
+prepareCom(ctx);
+prepareLevV(ctx);
+prepareLevH(ctx);
+prepareLevB(ctx)
+/*     ctx.width=500;
 ctx.height=500;
-
-    // Draw a filled blue circle with a black outline
 ctx.clearRect(0,0,canvas.width,canvas.height);
-
 img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
 img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
 ctx.clearRect(0,0,canvas.width,canvas.height);
-
 ctx.restore ()
 ctx.save()
-
-ctx.translate(50,5)
-
+ctx.translate(50,5);
+*/
 var a=Math.PI/4+.3
-
  var i=-Math.PI/2;
-f=i+a;//Math.PI/3
+f=i+a;
 drawS(cx, cy, r,i,f)
-//
-
 f=Math.PI*1.5;
 i=f-a;//Math.PI/3
 
-
-
 deviceOrientationHandler=null
-
 
 deviceOrientationHandler =function(evt) {
 
@@ -1123,6 +1129,19 @@ ctx.fillText("Zenith: "+v, 3, r*2);
 ////////////////
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
+
+ctxv.clearRect(0,0,canvasv.width,canvasv.height)
+
+drawL(ctxv,cx,cy,r,i,f)
+
+ctxh.clearRect(0,0,canvash.width,canvash.height)
+
+drawL(ctxh,cx,cy,r,i,f)
+
+ctxv.clearRect(0,0,canvasb.width,canvasb.height)
+
+drawL(ctxb,cx,cy,r,i,f)
+
 }
 
 window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
@@ -1142,7 +1161,6 @@ window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
 
 function drawS(cx, cy, r,i,f){
 var w=3*r-cx, h=3*r-cy
-
 
 
 ctx.save();
@@ -1179,32 +1197,83 @@ ctx.closePath();
     ctx.fillStyle = 'rgba(255,100,50,.2)';
     ctx.fill();
 
-///////////__/
-
 ctx.beginPath();
 var x=Math.cos (f)*r+cx
 var y=Math.sin (f)*r+cy
-//ctx.moveTo(x,y);
+
     ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
 
-//ctx.closePath();
     ctx.fillStyle = 'rgba(255,2,0,.5)';
     ctx.fill();
 
-//////////__/
 
 ctx.beginPath();
 var x=Math.cos (i)*r+cx
 var y=Math.sin (i)*r+cy
-//ctx.moveTo(x,y);
+
     ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
 
-//ctx.closePath();
     ctx.fillStyle = 'rgba(0,255,255,.5)';
+    ctx.fill();
+}
+
+function drawL(ctx, cx, cy, r,i,f){
+var w=3*r-cx, h=3*r-cy
+
+ctx.save();
+ctx.translate((w+ofx)/2,(h+ofy)/2);
+ctx.rotate(f+Math.PI/2);
+
+
+
+
+//ctx.drawImage(img,-(w+ofx)/2,-(h+ofy)/2,w+ofx,h+ofy);
+
+ctx.restore();
+
+
+ctx.save ()
+ctx.globalAlpha = 0.25;
+//ctx.drawImage(img,ofx,ofy,w+ofx,h+ofy);
+ctx.restore ()
+
+    ctx.beginPath();
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, r,i,f);
+
+ctx.closePath();
+    ctx.fillStyle = 'rgba(50,255,50,.2)';
     ctx.fill();
 
 
+   ctx.beginPath();
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, r,f,i);
+
+ctx.closePath();
+    ctx.fillStyle = 'rgba(255,100,50,.2)';
+    ctx.fill();
+
+ctx.beginPath();
+var x=Math.cos (f)*r+cx
+var y=Math.sin (f)*r+cy
+
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(255,2,0,.5)';
+    ctx.fill();
+
+
+ctx.beginPath();
+var x=Math.cos (i)*r+cx
+var y=Math.sin (i)*r+cy
+
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(0,255,255,.5)';
+    ctx.fill();
 }
+
 
 
  getMethods = function(ob, varname){
@@ -1267,7 +1336,59 @@ dot.position.set(o.coordenates.x,o.coordenates.y,o.coordenates.z)
 
 }
 
+function prepareCom(ctx){
 
+ ctx.width=500;
+ctx.height=500;
+ctx.clearRect(0,0,canvas.width,canvas.height);
+img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
+img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.restore ()
+ctx.save()
+ctx.translate(50,5);
+
+}
+function prepareLevV(ctx){
+ ctx.width=500;
+ctx.height=500;
+ctx.clearRect(0,0,canvas.width,canvas.height);
+img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
+img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.restore ()
+ctx.save()
+ctx.translate(50,5);
+
+
+};
+function prepareLevH(ctx){
+
+ ctx.width=500;
+ctx.height=500;
+ctx.clearRect(0,0,canvas.width,canvas.height);
+//img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
+//img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
+ctx.clearRect(0,0,canvas.width,canvas.height);
+//ctx.restore ()
+//ctx.save()
+//ctx.translate(50,5);
+};
+
+function prepareLevB(ctx){
+
+ ctx.width=500;
+ctx.height=500;
+ctx.clearRect(0,0,canvas.width,canvas.height);
+//img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
+//img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
+ctx.clearRect(0,0,canvas.width,canvas.height);
+//ctx.restore ()
+//ctx.save()
+//ctx.translate(50,5);
+
+    
+}
 
 
 
