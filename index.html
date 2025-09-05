@@ -1104,8 +1104,9 @@ deviceOrientationHandler=null
 deviceOrientationHandler =function(evt) {
 
 v=evt.beta;
+var gamma=evt.gamma;
 v=90-v.toFixed(2)
-
+gamma=gamma.toFixed(2)
 if(alphai === undefined) alphai = evt.alpha 
  al=evt.alpha-alphai 
 ar=360-al
@@ -1142,6 +1143,13 @@ ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
 ctx.fillText(al, r+100, 20);
 ctx.fillStyle="blue"
 ctx.fillText("Zenith: "+v, 3, r*2);
+////////////////
+ctx.fillStyle="green";
+ctx.font = "25px Arial"; // Example: 25px Arial font
+ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
+ctx.fillText(al, r*2+100, 20);
+ctx.fillStyle="brown"
+ctx.fillText("Level: "+gamma, r+30, r*2);
 
 ////////////////
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
