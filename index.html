@@ -99,11 +99,11 @@ button{
 <button class="cbo" onclick="ress.prepend(textarea);coo.scrollLeft = 0;">Txt</button>
 
 
-<button class="cbo" onclick="ress.prepend(canvas);coo.scrollLeft = 0;">Com</button>
-<button class="cbo" onclick="ress.prepend(canvasv);coo.scrollLeft = 0;">LeV</button>
-<button class="cbo" onclick="ress.prepend(canvash);coo.scrollLeft = 0;">LeH</button>
+<button class="cbo" onclick="ress.prepend(canvas);coo.scrollLeft = 0;opcanvas='can';">Com</button>
+<button class="cbo" onclick="ress.prepend(canvasv);coo.scrollLeft = 0;opcanvas='cv';">LeV</button>
+<button class="cbo" onclick="ress.prepend(canvash);coo.scrollLeft = 0;opcanvas='ch';">LeH</button>
 
-<button class="cbo" onclick="ress.prepend(canvasb);coo.scrollLeft = 0;">LeB</button>
+<button class="cbo" onclick="ress.prepend(canvasb);coo.scrollLeft = 0;opcanvas='cb';">LeB</button>
 
 <button class="cbo" onclick="ress.prepend(can3d);coo.scrollLeft = 0;">3</button>
 <button class="cbo" onclick="ress.prepend(container);coo.scrollLeft = 0;">D</button>
@@ -117,7 +117,7 @@ button{
     <canvas id="canvasb" class="els">canvas</canvas>
 
 
-<textarea id="textarea" class="els" placeholder=" texarea"></textarea>
+<textarea id="textarea" class="els" placeholder=" texarea";style="width:45%;"></textarea>
 
 <canvas id="can3d" class="els">3d canvas</canvas>
 <div id="container" class="els" >div testing</div>
@@ -177,18 +177,32 @@ button{
 
 
 <script>
+    var opcanvas="can"
 var renderCodes="";
 var ctx = canvas.getContext("2d"),ctxv = canvasv.getContext("2d"),ctxh = canvash.getContext("2d"),ctxb = canvasb.getContext("2d");
 
 ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+/*
 
 m=canvas.getClientRects()[0];
 ra=m.height/m.width;
 
 canvas.width = m.width;
 canvas.height = m.height;
+*/
+iniccanv(canvas)
+iniccanv(canvash)
+iniccanv(canvasb)
 
+iniccanv(canvasv)
+function iniccanv(canvas){
+
+    m=canvas.getClientRects()[0];
+ra=m.height/m.width;
+
+canvas.width = m.width;
+canvas.height = m.height;
+}
 
 
 
@@ -963,7 +977,7 @@ function insertTx(v){
 
 <script>
 
-
+//inicapp();
 
 function inicapp(){
 pba={x:0,y:0,z:0},arp=[];
@@ -1135,7 +1149,7 @@ textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 //ctxv.clearRect(0,0,canvasv.width,canvasv.height)
 
-drawL(ctxv,cx,cy,r,v);//evt.gamma
+drawL(ctxv,cx,cy,r,gamma);//evt.gamma
 
 
 //ctxh.clearRect(0,0,canvash.width,canvash.height)
@@ -1375,6 +1389,8 @@ drawL(ctx,100,100,100,1)
 };
 function prepareLevH(ctx){
 
+ ctx.width=500;
+ctx.height=500;
 ctx.clearRect(0,0,ctx.width,ctx.height)
  ctx.width=500;
 ctx.height=500;
