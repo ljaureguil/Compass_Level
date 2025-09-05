@@ -1144,14 +1144,19 @@ ctx.font = "25px Arial"; // Example: 25px Arial font
 ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
 ctx.fillText(al, r+100, 20);
 ctx.fillStyle="blue"
-ctx.fillText("Zenith: "+v, 3, r*2);
+ctx.fillText("Zenith: "+v, 0, r*2);
 ////////////////
 ctx.fillStyle="green";
 ctx.font = "25px Arial"; // Example: 25px Arial font
 ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
 ctx.fillText(al, r*2+100, 20);
-ctx.fillStyle="brown"
-ctx.fillText("Level: "+obmotion.z, r+30, r*1.8);
+ctx.fillStyle="brown";
+
+var al=obmotion.x*90/9.80665;
+al=al.toFixed(2)
+
+
+ctx.fillText("Level: "+al, r+30, r*1.9);
 
 ////////////////
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
