@@ -1152,13 +1152,13 @@ ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
 ctx.fillText(al, r*2+100, 20);
 ctx.fillStyle="brown";
 
-var al=obmotion.x*90/9.80665;
-al=al.toFixed(2)
+var al=90+obmotion.x*90/9.80665;
+al=al.toFixed(2);
+var ii=180-al;
+
 
 ctx.fillText("Level v: "+al, r+30, r*1.85);
-ctx.fillText("Level h: "+90-al, r+30, r*1.95);
-
-
+ctx.fillText("Level h: "+ii, r+30, r*1.95);
 ////////////////
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
