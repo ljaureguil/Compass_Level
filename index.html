@@ -177,6 +177,8 @@ button{
 
 
 <script>
+    obmotion={x:0,y:0,z:0};
+
     var opcanvas="can"
 var renderCodes="";
 var ctx = canvas.getContext("2d"),ctxv = canvasv.getContext("2d"),ctxh = canvash.getContext("2d"),ctxb = canvasb.getContext("2d");
@@ -1149,7 +1151,7 @@ ctx.font = "25px Arial"; // Example: 25px Arial font
 ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
 ctx.fillText(al, r*2+100, 20);
 ctx.fillStyle="brown"
-ctx.fillText("Level: "+gamma, r+30, r*2);
+ctx.fillText("Level: "+obmotion.z, r+30, r*1.8);
 
 ////////////////
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
@@ -1171,19 +1173,37 @@ drawL(ctxb,cx,cy,r,evt.alpha)
 }
 
 window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
-
+window.removeEventListener("devicemotion", handleMotionEvent, true);
 
 function inicmeasuring(){
 if (window.DeviceOrientationEvent) {
   window.addEventListener('deviceorientation', deviceOrientationHandler, true)
+  inicacc()
 
 }
 }
 
 function stopmeasuring(){
 window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
+stopacc()
+
 }
 
+function inicacc(){
+
+    window.addEventListener("devicemotion", handleMotionEvent, true);
+
+}
+
+function stopacc(){
+    window.removeEventListener("devicemotion", handleMotionEvent, true);
+}
+function handleMotionEvent(e){
+       obmotion.x = e.accelerationIncludingGravity.x;
+        obmotion.y = e.accelerationIncludingGravity.y;
+        obmotion.z = e.accelerationIncludingGravity.z;
+
+}
 
 function drawS(cx, cy, r,i,f){
 var w=3*r-cx, h=3*r-cy
