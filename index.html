@@ -256,9 +256,11 @@ setUp3dCanvas();
 function procesar(v){
   //  alert(v)
 clrEsena()
-
-    eval(v)
+if(v==="") inicapp();
+else eval(v)
 }
+
+
 function selPr(v){
     actual=v;
      var ind=verifypr(v);
@@ -981,6 +983,7 @@ function insertTx(v){
 
 //inicapp();
 
+
 function inicapp(){
 pba={x:0,y:0,z:0},arp=[];
 container.actualpoint={};
@@ -1107,7 +1110,7 @@ deviceOrientationHandler =function(evt) {
 
 v=evt.beta;
 var gamma=evt.gamma;
-v=90-v.toFixed(2)
+v=(90-v).toFixed(2)
 gamma=gamma.toFixed(2)
 if(alphai === undefined) alphai = evt.alpha 
  al=evt.alpha-alphai 
@@ -1136,29 +1139,31 @@ ar=ar.toFixed(2);
 ctx.fillStyle="red";
 ctx.font = "25px Arial"; // Example: 25px Arial font
 ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
-ctx.fillText(ar, 10, 20);
+ctx.fillText(ar, 0, 20);
 
 ////////////////
 ctx.fillStyle="green";
 ctx.font = "25px Arial"; // Example: 25px Arial font
 ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
-ctx.fillText(al, r+100, 20);
+ctx.fillText(al, r+120, 20);
 ctx.fillStyle="blue"
-ctx.fillText("Zenith: "+v, 0, r*2);
+ctx.fillText("Zenith: "+v, -30, r*2);
 ////////////////
 ctx.fillStyle="green";
 ctx.font = "25px Arial"; // Example: 25px Arial font
 ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
 ctx.fillText(al, r*2+100, 20);
-ctx.fillStyle="brown";
 
-var al=(obmotion.y*90/9.80665).toFixed(2);
+ctx.font = "15px Arial";
+ctx.fillStyle="blue";
+var ay=(obmotion.y*90/9.80665).toFixed(2);
 
-var ii=180-al;
+var ax=(obmotion.x*90/9.80665).toFixed(2);
+var az=(obmotion.z*90/9.80665).toFixed(2);
 
-
-ctx.fillText("Level v: "+al, r+30, r*1.85);
-ctx.fillText("Level h: "+ii, r+30, r*1.95);
+ctx.fillText("Level v(Y): "+ay, r*1.5, r*1.80);
+ctx.fillText("Level v(X): "+ax, r*1.5, r*1.90);
+ctx.fillText("Level h(Z): "+az, r*1.5, r*2.00);
 ////////////////
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
@@ -1458,6 +1463,7 @@ drawL(ctx,100,100,100,2)
 
 
 }
+
 
 
 
