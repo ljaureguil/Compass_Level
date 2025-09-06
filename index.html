@@ -981,8 +981,8 @@ function insertTx(v){
 
 <script>
 
-//inicapp();
 
+//inicapp()
 
 function inicapp(){
 pba={x:0,y:0,z:0},arp=[];
@@ -1170,16 +1170,16 @@ textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 //ctxv.clearRect(0,0,canvasv.width,canvasv.height)
 
-drawL(ctxv,cx,cy,r,gamma);//evt.gamma
+drawL(ctxv,cx,cy,r,obmotion.y);//evt.gamma
 
 
 //ctxh.clearRect(0,0,canvash.width,canvash.height)
 
-drawL(ctxh,cx,cy,r,evt.beta)
+drawL(ctxh,cx,cy,r,obmotion.x)
 
 //ctxv.clearRect(0,0,canvasb.width,canvasb.height)
 
-drawL(ctxb,cx,cy,r,evt.alpha)
+drawL(ctxb,cx,cy,r,obmotion.z)
 
 }
 
@@ -1276,7 +1276,7 @@ var y=Math.sin (i)*r+cy
 
 function drawL(ctx, cx, cy, r,e){
 var w=3*r-cx, h=3*r-cy;
-e=e*Math.PI/180;
+//e=e*Math.PI/180;
 var canvas=ctx.canvas
 textarea.value=e;
 ////ctx.save();
@@ -1297,7 +1297,7 @@ textarea.value=e;
 //ctx.restore ()
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
-var i=0;
+var i=90;
 var f=e;
     ctx.beginPath();
 ctx.moveTo(cx,cy);
@@ -1463,7 +1463,6 @@ drawL(ctx,100,100,100,2)
 
 
 }
-
 
 
 
