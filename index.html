@@ -984,6 +984,8 @@ function insertTx(v){
 
 //inicapp()
 
+//inicapp()
+
 function inicapp(){
 pba={x:0,y:0,z:0},arp=[];
 container.actualpoint={};
@@ -1156,7 +1158,8 @@ ctx.fillText(al, r*2+100, 20);
 
 ctx.font = "15px Arial";
 ctx.fillStyle="blue";
-var ay=(obmotion.y*90/9.80665).toFixed(2);
+//var ay=(obmotion.y*(Math.PI/2)/9.80665).toFixed(2);//e*180/Math.PI
+var ay=(obmotion.y*90/9.80665).toFixed(2);//e*180/Math.PI
 
 var ax=(obmotion.x*90/9.80665).toFixed(2);
 var az=(obmotion.z*90/9.80665).toFixed(2);
@@ -1170,16 +1173,16 @@ textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 //ctxv.clearRect(0,0,canvasv.width,canvasv.height)
 
-drawL(ctxv,cx,cy,r,obmotion.y);//evt.gamma
+drawL(ctxv,cx,cy,r,ay*Math.PI/180);//evt.gamma
 
 
 //ctxh.clearRect(0,0,canvash.width,canvash.height)
 
-drawL(ctxh,cx,cy,r,obmotion.x)
+drawL(ctxh,cx,cy,r,ax*Math.PI/180)
 
 //ctxv.clearRect(0,0,canvasb.width,canvasb.height)
 
-drawL(ctxb,cx,cy,r,obmotion.z)
+drawL(ctxb,cx,cy,r,az*Math.PI/180)
 
 }
 
@@ -1274,66 +1277,53 @@ var y=Math.sin (i)*r+cy
     ctx.fill();
 }
 
+
+
 function drawL(ctx, cx, cy, r,e){
 var w=3*r-cx, h=3*r-cy;
-//e=e*Math.PI/180;
-var canvas=ctx.canvas
-textarea.value=e;
-////ctx.save();
-//ctx.translate((w+ofx)/2,(h+ofy)/2);
-//ctx.rotate(f+Math.PI/2);
+var canvas=ctx.canvas;
+//e=e+Math.PI/2
 
-
-
-
-//ctx.drawImage(img,-(w+ofx)/2,-(h+ofy)/2,w+ofx,h+ofy);
-
-//ctx.restore();
-
-
-//ctx.save ()
-//ctx.globalAlpha = 0.25;
-//ctx.drawImage(img,ofx,ofy,w+ofx,h+ofy);
-//ctx.restore ()
 ctx.clearRect(0,0,canvas.width,canvas.height);
-
 var i=90;
 var f=e;
     ctx.beginPath();
 ctx.moveTo(cx,cy);
-    ctx.arc(cx, cy, r,i,f);
-
-ctx.closePath();
-    ctx.fillStyle = 'rgba(50,255,50,.2)';
-    ctx.fill();
-
-
-   ctx.beginPath();
-ctx.moveTo(cx,cy);
-    ctx.arc(cx, cy, r,f,i);
-
-ctx.closePath();
-    ctx.fillStyle = 'rgba(255,100,50,.2)';
-    ctx.fill();
+ctx.arc(cx, cy, r,0,Math.PI*2);
+ctx.stroke();
 
 ctx.beginPath();
+ctx.moveTo(cx,cy);
+
 var x=Math.cos (f)*r+cx
 var y=Math.sin (f)*r+cy
-
     ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
 
     ctx.fillStyle = 'rgba(255,2,0,.5)';
     ctx.fill();
 
+ctx.beginPath(); // Start a new path
+ctx.moveTo(cx, cy); // Move the pen to (30, 50)
+ctx.lineTo(x, y); // Draw a line to (150, 100)
+ctx.stroke(); // Render the path
+
+
 
 ctx.beginPath();
 var x=Math.cos (i)*r+cx
 var y=Math.sin (i)*r+cy
-
-    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
-
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, 4,0,Math.PI*2);//1 * Math.PI
     ctx.fillStyle = 'rgba(0,255,255,.5)';
-    ctx.fill();
+  ctx.fill();
+
+/**/
+ctx.font = "25px Arial";
+ctx.fillStyle="blue";
+var a=e*180/Math.PI 
+ctx.fillText("Angle: "+a, r*1.5,r*1.80); 
+
+
 }
 
 
