@@ -200,7 +200,12 @@ iniccanv(canvasv)
 function iniccanv(canvas){
 
     m=canvas.getClientRects()[0];
+//    alert(JSON.stringify(canvas.getClientRects()))
 ra=m.height/m.width;
+var mr=0;
+if(m.height>m.width)mr=(m.width)/2-10;
+else mr=(m.height)/2-10;
+canvas.name={r:mr,cx:m.width/2,cy:m.height/2}
 
 canvas.width = m.width;
 canvas.height = m.height;
@@ -1164,17 +1169,18 @@ textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 //ctxv.clearRect(0,0,canvasv.width,canvasv.height)
 
-drawL(ctxv,cx,cy,r,ay*Math.PI/180);//evt.gamma
-
+//drawL(ctxv,cx,cy,r,ay*Math.PI/180);//evt.gamma
+drawL(ctxv,ay*Math.PI/180);
 
 //ctxh.clearRect(0,0,canvash.width,canvash.height)
 
-drawL(ctxh,cx,cy,r,ax*Math.PI/180)
+//drawL(ctxh,cx,cy,r,ax*Math.PI/180)
+drawL(ctxh,ax*Math.PI/180)
 
 //ctxv.clearRect(0,0,canvasb.width,canvasb.height)
 
-drawL(ctxb,cx,cy,r,az*Math.PI/180)
-
+//drawL(ctxb,cx,cy,r,az*Math.PI/180)
+drawL(ctxb,az*Math.PI/180)
 }
 
 window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
@@ -1268,10 +1274,69 @@ var y=Math.sin (i)*r+cy
     ctx.fill();
 }
 
+function drawS2(cx, cy, r,i,f){
+    cx=ctx.canvas.name.cx;
+    cy=ctx.canvas.name.cy;
+    r=ctx.canvas.name.r;
+var w=3*r-cx, h=3*r-cy
 
 
-function drawL(ctx, cx, cy, r,e){
-var w=3*r-cx, h=3*r-cy;
+ctx.save();
+ctx.translate(cx,cy);
+ctx.rotate(f+Math.PI/2);
+
+ctx.drawImage(img,-cx,-cy,cx*2,cy*2);
+
+ctx.restore();
+
+
+ctx.save ()
+ctx.globalAlpha = 0.25;
+ctx.drawImage(img,0,0,ctx.canvas.width,ctx.canvas.height);
+ctx.restore ()
+
+    ctx.beginPath();
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, r,i,f);
+
+ctx.closePath();
+    ctx.fillStyle = 'rgba(50,255,50,.2)';
+    ctx.fill();
+
+
+   ctx.beginPath();
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, r,f,i);
+
+ctx.closePath();
+    ctx.fillStyle = 'rgba(255,100,50,.2)';
+    ctx.fill();
+
+ctx.beginPath();
+var x=Math.cos (f)*r+cx
+var y=Math.sin (f)*r+cy
+
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(255,2,0,.5)';
+    ctx.fill();
+
+
+ctx.beginPath();
+var x=Math.cos (i)*r+cx
+var y=Math.sin (i)*r+cy
+
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(0,255,255,.5)';
+    ctx.fill();
+}
+
+function drawL(ctx, e){
+    var cx=ctx.canvas.name.cx;
+    var cy=ctx.canvas.name.cy;
+    var r=ctx.canvas.name.r;
+  var w=3*r-cx, h=3*r-cy;
 var canvas=ctx.canvas;
 //e=e+Math.PI/2
 
@@ -1301,11 +1366,11 @@ ctx.stroke(); // Render the path
 
 
 ctx.beginPath();
-var x=Math.cos (i)*r+cx
-var y=Math.sin (i)*r+cy
+//var x=Math.cos (i)*r+cx
+//var y=Math.sin (i)*r+cy
 ctx.moveTo(cx,cy);
     ctx.arc(cx, cy, 4,0,Math.PI*2);//1 * Math.PI
-    ctx.fillStyle = 'rgba(0,255,255,.5)';
+    ctx.fillStyle = 'rgba(0,255,255,.55)';
   ctx.fill();
 
 /**/
@@ -1387,9 +1452,9 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
 img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
 ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.restore ()
-ctx.save()
-ctx.translate(50,5);
+//ctx.restore ()
+//ctx.save()
+//ctx.translate(50,5);
 
 }
 function prepareLevV(ctx){
