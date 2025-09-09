@@ -16,7 +16,7 @@
 #editor{
     padding:5px;
 width:100%;
-height:45%;
+height:30%;
 //background-color: red;;
 //color: white;
 
@@ -58,7 +58,7 @@ button{
 }
 #coo{
     width: 100%;
-    height:45%;
+    height:65%;
     overflow:auto;
  
 }
@@ -1089,16 +1089,7 @@ prepareCom(ctx);
 prepareLevV(ctxv);
 prepareLevH(ctxh);
 prepareLevB(ctxb)
-/*     ctx.width=500;
-ctx.height=500;
-ctx.clearRect(0,0,canvas.width,canvas.height);
-img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
-img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.restore ()
-ctx.save()
-ctx.translate(50,5);
-*/
+
 var a=Math.PI/4+.3
  var i=-Math.PI/2;
 f=i+a;
@@ -1390,8 +1381,8 @@ dot.position.set(o.coordenates.x,o.coordenates.y,o.coordenates.z)
 
 function prepareCom(ctx){
 
- ctx.width=500;
-ctx.height=500;
+// ctx.width=500;
+//ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
 img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
 img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
@@ -1403,33 +1394,23 @@ ctx.translate(50,5);
 }
 function prepareLevV(ctx){
 
- ctx.width=500;
-ctx.height=500;
+// ctx.width=500;
+//ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
-//img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
-//img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
 ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
-//ctx.restore ()
-//ctx.save()
-//ctx.translate(50,5);
 drawL(ctx,100,100,100,1)
 
 
 };
 function prepareLevH(ctx){
 
- ctx.width=500;
-ctx.height=500;
+// ctx.width=500;
+//ctx.height=500;
 ctx.clearRect(0,0,ctx.width,ctx.height)
  ctx.width=500;
 ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
-//img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
-//img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
 ctx.clearRect(0,0,canvas.width,canvas.height);
-//ctx.restore ()
-//ctx.save()
-//ctx.translate(50,5);
 
 drawL(ctx,100,100,100,4)
 
@@ -1438,15 +1419,12 @@ drawL(ctx,100,100,100,4)
 
 function prepareLevB(ctx){
 
- ctx.width=500;
-ctx.height=500;
+// ctx.width=500;
+//ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
-//img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
-//img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
+
 ctx.clearRect(0,0,canvas.width,canvas.height);
-//ctx.restore ()
-//ctx.save()
-//ctx.translate(50,5);
+
 drawL(ctx,100,100,100,2)
     
 }
