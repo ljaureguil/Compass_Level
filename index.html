@@ -150,8 +150,13 @@ button{
     <option>Select Prtoject</option>
 </select> 
    <button class="cbo" onclick="selPr(spr.value)">Go</button>
-<select id="sexamples">
-<option>Select an Example</optn  ion>
+<select id="menuopc" oninput="selmopc(this.value)">
+<option>select an option</option>
+<option>create project</option>
+<option>calculate coordenates</option>
+<option>save obs and keep same reference</option>
+<option>default</option>
+
 <option></option>
 </select>
 <select id="sweb" oninput="selPrw(this.value)">
@@ -192,25 +197,6 @@ ra=m.height/m.width;
 canvas.width = m.width;
 canvas.height = m.height;
 */
-iniccanv(canvas)
-iniccanv(canvash)
-iniccanv(canvasb)
-
-iniccanv(canvasv)
-function iniccanv(canvas){
-
-    m=canvas.getClientRects()[0];
-//    alert(JSON.stringify(canvas.getClientRects()))
-ra=m.height/m.width;
-var mr=0;
-if(m.height>m.width)mr=(m.width)/2-10;
-else mr=(m.height)/2-10;
-canvas.name={r:mr,cx:m.width/2,cy:m.height/2}
-
-canvas.width = m.width;
-canvas.height = m.height;
-}
-
 
 
     link="https://jsonblob.com/api/1387824581984837632"
@@ -982,6 +968,9 @@ function insertTx(v){
         }
 
     }
+
+
+
 </script>
 
 <script>
@@ -989,7 +978,25 @@ function insertTx(v){
 
 //inicapp()
 
-//inicapp()
+iniccanv(canvas)
+iniccanv(canvash)
+iniccanv(canvasb)
+
+iniccanv(canvasv)
+function iniccanv(canvas){
+
+    m=canvas.getClientRects()[0];
+//    alert(JSON.stringify(canvas.getClientRects()))
+ra=m.height/m.width;
+var mr=0,gap=5;
+if(m.height>m.width)mr=m.width/2-gap;
+else mr=m.height/2-gap;
+canvas.name={r:mr,cx:m.width/2,cy:m.height/2, gap:gap}
+
+canvas.width = m.width;
+canvas.height = m.height;
+}
+
 
 function inicapp(){
 pba={x:0,y:0,z:0},arp=[];
@@ -1053,10 +1060,12 @@ else{
 
 k=false;
  stopmeasuring();
-
+if(menuopc.value==""){
 var cor=getCoords(ar,v,100,{x:0,y:0,z:0})
-var sc= JSON.stringify (cor)
-
+var sc= JSON.stringify (cor);
+alert(sc)
+}
+/*
 var op=prompt (sc+"\nang "+al+"   v="+v+`
 What do you want to do?
 0. Set up obs origin 
@@ -1081,7 +1090,7 @@ dpts.innerHTML+=`
 `;
 
 arp.push(o)
-}
+}*/
 
 }
 
@@ -1160,9 +1169,9 @@ var ay=(obmotion.y*90/9.80665).toFixed(2);//e*180/Math.PI
 var ax=(obmotion.x*90/9.80665).toFixed(2);
 var az=(obmotion.z*90/9.80665).toFixed(2);
 
-ctx.fillText("Level v(Y): "+ay, r*1.5, r*1.80);
-ctx.fillText("Level v(X): "+ax, r*1.5, r*1.90);
-ctx.fillText("Level h(Z): "+az, r*1.5, r*2.00);
+ctx.fillText("Level v(Y): "+ay, r*1.30, r*1.80);
+ctx.fillText("Level v(X): "+ax, r*1.30, r*1.90);
+ctx.fillText("Level h(Z): "+az, r*1.30, r*2.00);
 ////////////////
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
@@ -1216,7 +1225,7 @@ function handleMotionEvent(e){
 
 }
 
-function drawS(cx, cy, r,i,f){
+function drawS2(cx, cy, r,i,f){
 var w=3*r-cx, h=3*r-cy
 
 
@@ -1274,26 +1283,26 @@ var y=Math.sin (i)*r+cy
     ctx.fill();
 }
 
-function drawS2(cx, cy, r,i,f){
+function drawS(cx, cy, r,i,f){
+var o=ctx.canvas.name;
     cx=ctx.canvas.name.cx;
     cy=ctx.canvas.name.cy;
     r=ctx.canvas.name.r;
+var gap=ctx.canvas.name.gap;
 var w=3*r-cx, h=3*r-cy
 
-
+ctx.globalAlpha = 0.25;
+ctx.drawImage(img,cx-r,cy-r,r*2,r*2);
+ctx.globalAlpha = 1;
 ctx.save();
+
 ctx.translate(cx,cy);
+
 ctx.rotate(f+Math.PI/2);
 
-ctx.drawImage(img,-cx,-cy,cx*2,cy*2);
+ctx.drawImage(img,-r,-r,r*2,r*2);
 
 ctx.restore();
-
-
-ctx.save ()
-ctx.globalAlpha = 0.25;
-ctx.drawImage(img,0,0,ctx.canvas.width,ctx.canvas.height);
-ctx.restore ()
 
     ctx.beginPath();
 ctx.moveTo(cx,cy);
@@ -1493,11 +1502,74 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 drawL(ctx,100,100,100,2)
     
 }
+}
 
+function selmopc(v){
+
+    if(v==="default"){
+
+    }
+    if(v==="calculate coordenates"){
+        var d=prompt("Type distance",1)*1;
+/*
+
+if(!k){
+if(opt!="3") alphai =undefined;
+k=true;
+inicmeasuring();
+}
+else{
+
+k=false;
+ stopmeasuring();
+
+var cor=getCoords(ar,v,100,{x:0,y:0,z:0})
+var sc= JSON.stringify (cor)
+
+var op=prompt (sc+"\nang "+al+"   v="+v+`
+What do you want to do?
+0. Set up obs origin 
+1. Save obs
+2. Set distance to get coordinates
+3. Keep same reference 
+3. Save obs and keep same reference 
+
+`,1)
+
+if(op==="0"){
+
+}
+if(op==="1"){
+var o={};
+o.a=ar*1
+o.v=v*1;
+o.p0=pba;
+var so=JSON.stringify(o);
+dpts.innerHTML+=`
+<br><button onclick="finishp(this.name)" name=`+so+` obj=`+o+`>`+arp.length+`</button>
+`;
+
+arp.push(o)
+}
 
 }
 
 
+*/
 
+
+    }
+    if(v==="save obs and keep same reference"){
+
+    }
+    if(v==="save obs and keep same reference"){
+
+    }
+    if(v===""){
+
+    }
+
+
+}
 </script>
 </HTML>
