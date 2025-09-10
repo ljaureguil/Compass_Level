@@ -1061,7 +1061,8 @@ else{
 k=false;
  stopmeasuring();
 if(menuopc.value=="calculate coordenates"){
-var cor=getCoords(ar,v,100,{x:0,y:0,z:0})
+    var d=prompt("Type distance",1)*1;
+var cor=getCoords(ar,v,d,{x:0,y:0,z:0})
 var sc= JSON.stringify (cor);
 alert(sc)
 }
@@ -1502,7 +1503,7 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 drawL(ctx,100,100,100,2)
     
 }
-}
+
 
 function selmopc(v){
 
@@ -1571,5 +1572,7 @@ arp.push(o)
 
 
 }
+}
+
 </script>
 </HTML>
