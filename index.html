@@ -978,6 +978,12 @@ function insertTx(v){
 
 //inicapp()
 
+
+function inicapp(){
+
+
+
+
 iniccanv(canvas)
 iniccanv(canvash)
 iniccanv(canvasb)
@@ -998,7 +1004,6 @@ canvas.height = m.height;
 }
 
 
-function inicapp(){
 pba={x:0,y:0,z:0},arp=[];
 container.actualpoint={};
 container.innerHTML=`
@@ -1044,7 +1049,7 @@ if(v===""){
 
 
 `
-var k=false,opt="";
+var k=false,opt="",obg={} ;obg.points=arp;obg.obs=[];
 
 var img=document.createElement("img");
 
@@ -1059,39 +1064,16 @@ inicmeasuring();
 else{
 
 k=false;
- stopmeasuring();
 if(menuopc.value=="calculate coordenates"){
     var d=prompt("Type distance",1)*1;
 var cor=getCoords(ar,v,d,{x:0,y:0,z:0})
-var sc= JSON.stringify (cor);
-alert(sc)
+arp.push(cor)
+var sc= JSON.stringify (obg);
+k=true;
+alert(sc);
+return;
 }
-/*
-var op=prompt (sc+"\nang "+al+"   v="+v+`
-What do you want to do?
-0. Set up obs origin 
-1. Save obs
-2. Set distance to get coordinates
-3. Keep same reference 
-3. Save obs and keep same reference 
-
-`,1)
-
-if(op==="0"){
-
-}
-if(op==="1"){
-var o={};
-o.a=ar*1
-o.v=v*1;
-o.p0=pba;
-var so=JSON.stringify(o);
-dpts.innerHTML+=`
-<br><button onclick="finishp(this.name)" name=`+so+` obj=`+o+`>`+arp.length+`</button>
-`;
-
-arp.push(o)
-}*/
+ stopmeasuring();
 
 }
 
@@ -1174,6 +1156,11 @@ ctx.fillText("Level v(Y): "+ay, r*1.30, r*1.80);
 ctx.fillText("Level v(X): "+ax, r*1.30, r*1.90);
 ctx.fillText("Level h(Z): "+az, r*1.30, r*2.00);
 ////////////////
+ctx.fillText(">>>  "+menuopc.value+"  <<", r*.35, 15);
+
+
+
+//////////
 textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 
@@ -1434,6 +1421,10 @@ var y=Math.sin(a)*dx+p0.y;
 c.x=x;
 c.y=y
 c.z=z;
+c.azimuth=a;
+c.zenith=v;
+c.distance=d;
+c.basePoint=p0;
 
 return c;
 }
@@ -1456,31 +1447,22 @@ dot.position.set(o.coordenates.x,o.coordenates.y,o.coordenates.z)
 
 function prepareCom(ctx){
 
-// ctx.width=500;
-//ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
 img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
 img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
 ctx.clearRect(0,0,canvas.width,canvas.height);
-//ctx.restore ()
-//ctx.save()
-//ctx.translate(50,5);
+
 
 }
 function prepareLevV(ctx){
 
-// ctx.width=500;
-//ctx.height=500;
 ctx.clearRect(0,0,canvas.width,canvas.height);
 ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
 drawL(ctx,100,100,100,1)
 
-
 };
 function prepareLevH(ctx){
 
-// ctx.width=500;
-//ctx.height=500;
 ctx.clearRect(0,0,ctx.width,ctx.height)
  ctx.width=500;
 ctx.height=500;
@@ -1494,8 +1476,7 @@ drawL(ctx,100,100,100,4)
 
 function prepareLevB(ctx){
 
-// ctx.width=500;
-//ctx.height=500;
+
 ctx.clearRect(0,0,canvas.width,canvas.height);
 
 ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -1511,53 +1492,7 @@ function selmopc(v){
 
     }
     if(v==="calculate coordenates"){
-        var d=prompt("Type distance",1)*1;
-/*
-
-if(!k){
-if(opt!="3") alphai =undefined;
-k=true;
-inicmeasuring();
-}
-else{
-
-k=false;
- stopmeasuring();
-
-var cor=getCoords(ar,v,100,{x:0,y:0,z:0})
-var sc= JSON.stringify (cor)
-
-var op=prompt (sc+"\nang "+al+"   v="+v+`
-What do you want to do?
-0. Set up obs origin 
-1. Save obs
-2. Set distance to get coordinates
-3. Keep same reference 
-3. Save obs and keep same reference 
-
-`,1)
-
-if(op==="0"){
-
-}
-if(op==="1"){
-var o={};
-o.a=ar*1
-o.v=v*1;
-o.p0=pba;
-var so=JSON.stringify(o);
-dpts.innerHTML+=`
-<br><button onclick="finishp(this.name)" name=`+so+` obj=`+o+`>`+arp.length+`</button>
-`;
-
-arp.push(o)
-}
-
-}
-
-
-*/
-
+  //      var d=prompt("Type distance",1)*1;
 
     }
     if(v==="save obs and keep same reference"){
