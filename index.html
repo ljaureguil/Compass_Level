@@ -82,10 +82,11 @@ button{
 
 }
 .cbo{
-    margin: 8px;
+    margin: 5px;
     width: auto;
     background-color: red;
     color: white;
+    font-size: 10px;
 }
 
 </style>
@@ -107,7 +108,7 @@ button{
 
 <button class="cbo" onclick="ress.prepend(can3d);coo.scrollLeft = 0;">3</button>
 <button class="cbo" onclick="ress.prepend(container);coo.scrollLeft = 0;">D</button>
-
+<button class="cbo" onclick="dcal.style.display='block';" style="background-color: blue;"> &radic;</button>
 
 <div id="coo">
 <div id="ress">
@@ -152,7 +153,7 @@ button{
    <button class="cbo" onclick="selPr(spr.value)">Go</button>
 <select id="menuopc" oninput="selmopc(this.value)">
 <option>select an option</option>
-<option>create project</option>
+<option>create new project</option>
 <option>calculate coordenates</option>
 <option>save obs and keep same reference</option>
 <option>default</option>
@@ -178,6 +179,11 @@ button{
 
 </select>
 
+</div>
+<div id="dcal" style="display:none;position:absolute;width: 30%;height: 20%;top:60%;left:40%;top:30%;background:rgba(255,255,255,.5);border-style: solid;text-align: center;overflow: auto;">
+    <textarea id="tcal" style="width: 98%;height: 80%;margin:3px;padding:5px;"></textarea>
+    <button class="cbo" onclick="var w=eval(tcal.value);tcal.value+='\n\n...........\n\nResults: '+w">Calc</button> 
+       <button class="cbo" onclick="dcal.style.display='none';">Close</button>
 </div>
 
 
