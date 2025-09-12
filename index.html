@@ -155,6 +155,8 @@ button{
 <option>select an option</option>
 <option>create new project</option>
 <option>calculate coordenates</option>
+<option>find obs</option>
+
 <option>save obs and keep same reference</option>
 <option>default</option>
 
@@ -180,10 +182,13 @@ button{
 </select>
 
 </div>
-<div id="dcal" style="display:none;position:absolute;width: 51%;height: 30%;top:20%;left:23%;background:rgba(255,255,255,.5);border-style: solid;text-align: center;overflow: auto;">
+<div id="dcal" style="display:none;position:absolute;width: 51%;height: 30%;top:15%;left:23%;background:rgba(255,255,255,.5);border-style: solid;text-align: center;overflow: auto;">
     <textarea id="tcal" style="width: 94%;height: 80%;margin:3px;padding:5px;"></textarea>
-    <button class="cbo" onclick="var w=eval(tcal.value);tcal.value+='\n\n/*\n\nResults: '+w+'\n\n*/'">Calc</button> 
-       <button class="cbo" onclick="dcal.style.display='none';">Close</button>
+      <button class="cboo" onclick="dcal.style.display='none';" style="position:absolute;bottom:0%;left:1%;width:auto;">Close</button>
+              <button class="cbo" onclick="tcal.value='';" >Clear</button>
+       <button class="cboo" onclick="var w=eval(tcal.value);tcal.value+='\n\n/*\nResults: '+w+'\n*/'" style="position:absolute;bottom:1%;right:1%;width:auto;">Calc</button>
+      
+    
 </div>
 
 
@@ -1079,6 +1084,20 @@ k=true;
 alert(sc);
 return;
 }
+if(menuopc.value=="find obs"){
+    var d=JSON.parse(prompt("Tap compass to Zero it after you type info.\n\nType azimuth and zenith ex.[ 10, 90]","[ 10, 90]"));
+    var fa=d[0],fb=d[1];
+    canvas.fa=fa;canvas.fv=fv;
+
+/*    
+var cor=getCoords(ar,v,d,{x:0,y:0,z:0})
+arp.push(cor)
+var sc= JSON.stringify (obg);
+k=true;
+alert(sc);
+return;*/
+}
+
  stopmeasuring();
 
 }
@@ -1183,7 +1202,20 @@ drawL(ctxh,ax*Math.PI/180)
 //ctxv.clearRect(0,0,canvasb.width,canvasb.height)
 
 //drawL(ctxb,cx,cy,r,az*Math.PI/180)
-drawL(ctxb,az*Math.PI/180)
+drawL(ctxb,az*Math.PI/180);
+canvcol=canvas.style.background;
+
+if(canvas.fa!=undefined){
+    var dfa=ff-canvas.fa;
+    dfa=Math.abs(dfa);
+    if(dfa<3) {
+        canvas.style.background="red";
+
+    }
+    else canvas.style.background=canvcol;
+}
+
+
 }
 
 window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
