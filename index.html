@@ -987,11 +987,11 @@ function insertTx(v){
 <script>
 
 
-//inicapp()
 
+//inicapp();
 
 function inicapp(){
-
+var msg="", azimuth=0,zenith=0;
 
 
 
@@ -1088,14 +1088,9 @@ if(menuopc.value=="find obs"){
     var d=JSON.parse(prompt("Tap compass to Zero it after you type info.\n\nType azimuth and zenith ex.[ 10, 90]","[ 10, 90]"));
     var fa=d[0],fb=d[1];
     canvas.fa=fa;canvas.fv=fv;
+msg=msg+"  "+fa;
 
-/*    
-var cor=getCoords(ar,v,d,{x:0,y:0,z:0})
-arp.push(cor)
-var sc= JSON.stringify (obg);
-k=true;
-alert(sc);
-return;*/
+
 }
 
  stopmeasuring();
@@ -1161,7 +1156,9 @@ ctx.fillStyle="green";
 ctx.font = "25px Arial"; // Example: 25px Arial font
 ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
 ctx.fillText(al, r+120, 20);
-ctx.fillStyle="blue"
+ctx.fillStyle="blue";
+azimuth=al;
+zenith=v;
 ctx.fillText("Zenith: "+v, -30, r*2);
 ////////////////
 ctx.fillStyle="green";
@@ -1171,7 +1168,7 @@ ctx.fillText(al, r*2+100, 20);
 
 ctx.font = "15px Arial";
 ctx.fillStyle="blue";
-//var ay=(obmotion.y*(Math.PI/2)/9.80665).toFixed(2);//e*180/Math.PI
+
 var ay=(obmotion.y*90/9.80665).toFixed(2);//e*180/Math.PI
 
 var ax=(obmotion.x*90/9.80665).toFixed(2);
@@ -1181,7 +1178,8 @@ ctx.fillText("Level v(Y): "+ay, r*1.30, r*1.80);
 ctx.fillText("Level v(X): "+ax, r*1.30, r*1.90);
 ctx.fillText("Level h(Z): "+az, r*1.30, r*2.00);
 ////////////////
-ctx.fillText(">>>  "+menuopc.value+"  <<", r*.35, 15);
+
+ctx.fillText(menuopc.value+": "+ar, r*.35, 15);
 
 
 
@@ -1203,16 +1201,27 @@ drawL(ctxh,ax*Math.PI/180)
 
 //drawL(ctxb,cx,cy,r,az*Math.PI/180)
 drawL(ctxb,az*Math.PI/180);
-canvcol=canvas.style.background;
 
 if(canvas.fa!=undefined){
-    var dfa=ff-canvas.fa;
+var range=90
+    var dfa=ar-canvas.fa;
     dfa=Math.abs(dfa);
-    if(dfa<3) {
-        canvas.style.background="red";
+    if(dfa<range) {
+
+var ic=(range-dfa)/range-.6
+
+if(dfa<1)   { 
+  canvas.style.background="rgba(0,255,0,.84)";
+aud.play()
+}
+else  {
+canvas.style.background="rgba(255,0,0,"+ic+")";;
+aud.pause()
+
+}
 
     }
-    else canvas.style.background=canvcol;
+    else canvas.style.background="white";
 }
 
 
@@ -1524,25 +1533,10 @@ drawL(ctx,100,100,100,2)
 }
 
 
-function selmopc(v){
+selmopc = function (v){
 
-    if(v==="default"){
-
-    }
-    if(v==="calculate coordenates"){
-  //      var d=prompt("Type distance",1)*1;
-
-    }
-    if(v==="save obs and keep same reference"){
-
-    }
-    if(v==="save obs and keep same reference"){
-
-    }
-    if(v===""){
-
-    }
-
+ msg=v;
+onmen.click();
 
 }
 sin = function(a){
@@ -1550,7 +1544,8 @@ return Math.sin(a*Math.PI/180)
 }
 
  asin = function(v){
-return Math.asin(v)*180/Math.PI
+return Math.asin(v)*180/Math.PI;
+
 }
 
  cos = function(a){
@@ -1571,10 +1566,23 @@ return Math.atan(v)*180/Math.PI
 }
 
 
+sqrt = function(v){
+return Math.sqrt(v);
+}
 
+pause=function (){aud.pause()
+//aud.pause();aud.currentTime = 0;
+}
+
+var s=`
+
+<audio id="aud" click="this.play()"  onload="setTimeout(function(){pause()},10);" src="https://www.pacdv.com/sounds/interface_sound_effects/beep-11.wav" type="audio/mp3" autoplay></audio>`
+
+container.innerHTML=s+`
+Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">Pixabay</a>
+`
 
 	
 }
-
 </script>
 </HTML>
