@@ -152,15 +152,7 @@ button{
 </select> 
    <button class="cbo" onclick="selPr(spr.value)">Go</button>
 <select id="menuopc" oninput="selmopc(this.value)">
-<option>select an option</option>
-<option>create new project</option>
-<option>calculate coordenates</option>
-<option>find obs</option>
 
-<option>save obs and keep same reference</option>
-<option>default</option>
-
-<option></option>
 </select>
 <select id="sweb" oninput="selPrw(this.value)">
 <option>Select from Web</option>
@@ -988,9 +980,42 @@ function insertTx(v){
 
 
 
+
+
 //inicapp();
 
+
+
+
 function inicapp(){
+
+
+
+menuopc.innerHTML=`
+<option>select an option</option>
+<option>create new project</option>
+<option>calculate coordenates</option>
+<option>find Angle</option>
+<option>find Level (zenith)</option>
+<option>find obs</option>
+
+<option>save obs and keep same reference</option>
+<option>default</option>
+
+<option></option>
+`
+
+
+
+
+
+
+
+
+
+
+
+
 var msg="", azimuth=0,zenith=0;
 
 
@@ -1084,15 +1109,29 @@ k=true;
 alert(sc);
 return;
 }
-if(menuopc.value=="find obs"){
-    var d=JSON.parse(prompt("Tap compass to Zero it after you type info.\n\nType azimuth and zenith ex.[ 10, 90]","[ 10, 90]"));
-    var fa=d[0],fb=d[1];
-    canvas.fa=fa;canvas.fv=fv;
-msg=msg+"  "+fa;
-
+if(menuopc.value==="find obs"){
+    var d=JSON.parse(prompt('Tap compass to Zero it after you type info.\n\nType azimuth, zenith, direction ex.[ 35,85, "left"]','[ 35, 55, "left"]'));
+    canvas.obs=d;
 
 }
+else canvas.obs=null;
 
+if(menuopc.value==="find Angle"){
+//alert(menuopc.value);
+    var d=JSON.parse(prompt('Tap compass to Zero it after you type info.\n\nType azimuth and left or right direction ex.[ 10, "left"]','[ 10, "left"]'));
+    var fa=d[0],fb=d[1];
+
+    canvas.fa=fa;
+canvas.d=d[1];
+//alert(canvas.d)
+}
+else canvas.fa=-1;
+if(menuopc.value==="find Level (zenith)"){
+
+canvas.fz=prompt("Type zenith or angle",45)*1;
+
+} else canvas.fz=null
+msg=menuopc.value
  stopmeasuring();
 
 }
@@ -1159,12 +1198,8 @@ ctx.fillText(al, r+120, 20);
 ctx.fillStyle="blue";
 azimuth=al;
 zenith=v;
-ctx.fillText("Zenith: "+v, -30, r*2);
-////////////////
-ctx.fillStyle="green";
-ctx.font = "25px Arial"; // Example: 25px Arial font
-ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
-ctx.fillText(al, r*2+100, 20);
+ctx.fillText("Zenith: "+v, 0, r*2);
+
 
 ctx.font = "15px Arial";
 ctx.fillStyle="blue";
@@ -1179,52 +1214,91 @@ ctx.fillText("Level v(X): "+ax, r*1.30, r*1.90);
 ctx.fillText("Level h(Z): "+az, r*1.30, r*2.00);
 ////////////////
 
-ctx.fillText(menuopc.value+": "+ar, r*.35, 15);
 
 
 
 //////////
-textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
+//textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 
-//ctxv.clearRect(0,0,canvasv.width,canvasv.height)
-
-//drawL(ctxv,cx,cy,r,ay*Math.PI/180);//evt.gamma
 drawL(ctxv,ay*Math.PI/180);
 
-//ctxh.clearRect(0,0,canvash.width,canvash.height)
-
-//drawL(ctxh,cx,cy,r,ax*Math.PI/180)
 drawL(ctxh,ax*Math.PI/180)
 
-//ctxv.clearRect(0,0,canvasb.width,canvasb.height)
-
-//drawL(ctxb,cx,cy,r,az*Math.PI/180)
 drawL(ctxb,az*Math.PI/180);
 
-if(canvas.fa!=undefined){
-var range=90
-    var dfa=ar-canvas.fa;
+if(canvas.fa!=-1){
+msg=menuopc.value+"  "+canvas.fa;
+var range=90;
+var dfa=0;
+
+    if(canvas.d==="left" )   dfa=al-canvas.fa;
+else dfa=ar-canvas.fa;
+
+if(dfa<-1) msg=menuopc.value+" "+canvas.fa+" --->>>";
+if(dfa>1) msg=menuopc.value+" "+canvas.fa+" <<<---";
     dfa=Math.abs(dfa);
     if(dfa<range) {
 
 var ic=(range-dfa)/range-.6
 
 if(dfa<1)   { 
-  canvas.style.background="rgba(0,255,0,.84)";
+//  canvas.style.background="rgba(0,255,0,.84)";
+msg=menuopc.value+" "+canvas.fa+" Close enough"
 aud.play()
 }
 else  {
-canvas.style.background="rgba(255,0,0,"+ic+")";;
+//canvas.style.background="rgba(255,0,0,"+ic+")";;
 aud.pause()
 
 }
-
     }
     else canvas.style.background="white";
 }
 
+if(canvas.fz!=null && menuopc.value==="find Level (zenith)"){
+msg= menuopc.value+" "+canvas.fz;
+  var da=v-canvas.fz;
+if(da<2) msg=menuopc.value+" "+canvas.fz+" DWN";
+if(da>2) msg=menuopc.value+" "+canvas.fz+" UP";
+da=Math.abs(da);
+if(da<2){ 
+msg="Close enough";
+aud.play();
+}
+else aud.pause();
 
+}
+
+if(canvas.obs!=null && menuopc.value==="find obs"){
+msg=menuopc.value+" "+canvas.obs
+//ctx.beginPath();
+ctx.font = "15px Arial bold";
+ctx.fillStyle="red";
+ctx.fillText("obs: "+canvas.obs, 0, r*1.75);
+//ctx.endPath();
+var a=canvas.obs[0];
+var z=canvas.obs[1];
+var dir=canvas.obs[2];
+var da=al-a;
+if(dir==="right") da=ar-a;
+
+  var dz=v-z;
+dz=Math.abs(dz);
+da=Math.abs(da);
+
+if(dz<2 && da<1){ 
+aud.play();
+msg=menuopc.value+"  Close enough";
+
+}
+else aud.pause();
+
+}
+
+
+//menuopc.value+": "+
+ctx.fillText(msg, r*.35, 15);
 }
 
 window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
