@@ -980,14 +980,14 @@ function insertTx(v){
 
 
 
-
-
 //inicapp();
 
 
 
 
 function inicapp(){
+
+
 
 
 
@@ -998,15 +998,22 @@ menuopc.innerHTML=`
 <option>find Angle</option>
 <option>find Level (zenith)</option>
 <option>find obs</option>
-
+<option>calc dist from 2 points</option>
 <option>save obs and keep same reference</option>
-<option>default</option>
+<option>show obglocal</option>
 
 <option></option>
 `
 
+if(menuopc.parentNode.innerHTML.indexOf('id="spoints"')===-1){
+menuopc.parentNode.innerHTML+=`
+<select id="spoints" oninput='selPoint(this.value)'>
+<option>Sel points</option>
 
+</select>
 
+`
+}
 
 
 
@@ -1072,8 +1079,10 @@ if(v==="Save point to web"){
 
 }
 
-if(v===""){
+if(v==="show obglocal"){
+obgs=localStorage.getItem("objlocal")
 
+alert(obgs)
 }
 
 
@@ -1085,8 +1094,16 @@ if(v===""){
 
 
 `
-var k=false,opt="",obg={} ;obg.points=arp;obg.obs=[];
 
+
+
+
+
+var k=false,opt="",obg={} ;obg.points=arp;obg.obs=[];
+obg=JSON.parse(localStorage.getItem("objlocal","{}"))
+
+//alert(obg);
+if(obg!=null) setUpPoints()
 var img=document.createElement("img");
 
 var opt=""
@@ -1103,10 +1120,15 @@ k=false;
 if(menuopc.value=="calculate coordenates"){
     var d=prompt("Type distance",1)*1;
 var cor=getCoords(ar,v,d,{x:0,y:0,z:0})
-arp.push(cor)
-var sc= JSON.stringify (obg);
+arp.push(cor);
+var sc= JSON.stringify (cor);//obg
 k=true;
-alert(sc);
+if(confirm(sc+"\n\nSave point?")){
+cor.id=prompt("Type id","a"+obg.points.length);
+obg.points.push(cor);
+ localStorage.setItem("obglocal",JSON.stringify(obg));;//sc
+
+}
 return;
 }
 if(menuopc.value==="find obs"){
@@ -1137,6 +1159,7 @@ msg=menuopc.value
 }
 
 }
+
 
 var color="rgba(50,255,50,.5)"
 var ofx=0, ofy=0, r=canvas.height/2-5, cx=r+ofx, cy=r+ofy, o={} , di=0, ch=false,v=0;
@@ -1221,11 +1244,11 @@ ctx.fillText("Level h(Z): "+az, r*1.30, r*2.00);
 //textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 
-drawL(ctxv,ay*Math.PI/180);
+//drawL(ctxv,ay*Math.PI/180);
 
-drawL(ctxh,ax*Math.PI/180)
+//drawL(ctxh,ax*Math.PI/180)
 
-drawL(ctxb,az*Math.PI/180);
+//drawL(ctxb,az*Math.PI/180);
 
 if(canvas.fa!=-1){
 msg=menuopc.value+"  "+canvas.fa;
@@ -1235,8 +1258,12 @@ var dfa=0;
     if(canvas.d==="left" )   dfa=al-canvas.fa;
 else dfa=ar-canvas.fa;
 
-if(dfa<-1) msg=menuopc.value+" "+canvas.fa+" --->>>";
-if(dfa>1) msg=menuopc.value+" "+canvas.fa+" <<<---";
+if(dfa<-1){ msg=menuopc.value+" "+canvas.fa+" go right --->>>";
+//speak("go right");
+}
+if(dfa>1){ msg=menuopc.value+" "+canvas.fa+" <<<--- go left";
+//speak("go left");
+}
     dfa=Math.abs(dfa);
     if(dfa<range) {
 
@@ -1244,7 +1271,7 @@ var ic=(range-dfa)/range-.6
 
 if(dfa<1)   { 
 //  canvas.style.background="rgba(0,255,0,.84)";
-msg=menuopc.value+" "+canvas.fa+" Close enough"
+msg=menuopc.value+" "+canvas.fa+" Close enough "
 aud.play()
 }
 else  {
@@ -1259,11 +1286,11 @@ aud.pause()
 if(canvas.fz!=null && menuopc.value==="find Level (zenith)"){
 msg= menuopc.value+" "+canvas.fz;
   var da=v-canvas.fz;
-if(da<2) msg=menuopc.value+" "+canvas.fz+" DWN";
-if(da>2) msg=menuopc.value+" "+canvas.fz+" UP";
+if(da<1) msg=menuopc.value+" "+canvas.fz+" DWN";
+if(da>1) msg=menuopc.value+" "+canvas.fz+" UP";
 da=Math.abs(da);
 if(da<2){ 
-msg="Close enough";
+msg="Close enough "+v;
 aud.play();
 }
 else aud.pause();
@@ -1271,23 +1298,23 @@ else aud.pause();
 }
 
 if(canvas.obs!=null && menuopc.value==="find obs"){
-msg=menuopc.value+" "+canvas.obs
-//ctx.beginPath();
-ctx.font = "15px Arial bold";
-ctx.fillStyle="red";
-ctx.fillText("obs: "+canvas.obs, 0, r*1.75);
-//ctx.endPath();
 var a=canvas.obs[0];
 var z=canvas.obs[1];
 var dir=canvas.obs[2];
 var da=al-a;
+var ma="",mz="";
 if(dir==="right") da=ar-a;
-
   var dz=v-z;
+if(da<0) ma=" left ";
+else ma=" right ";
+if(dz>0) mz=" Up ";
+else mz=" Dwn ";
+
 dz=Math.abs(dz);
 da=Math.abs(da);
+msg=menuopc.value+" "+canvas.obs+" ...Go:"+ma+mz;
 
-if(dz<2 && da<1){ 
+if(dz<1 && da<1){ 
 aud.play();
 msg=menuopc.value+"  Close enough";
 
@@ -1297,7 +1324,7 @@ else aud.pause();
 }
 
 
-//menuopc.value+": "+
+//if(msg.indexOf("undefined")==-1) msg=menuopc.value;
 ctx.fillText(msg, r*.35, 15);
 }
 
@@ -1491,7 +1518,6 @@ ctx.moveTo(cx,cy);
     ctx.fillStyle = 'rgba(0,255,255,.55)';
   ctx.fill();
 
-/**/
 ctx.font = "25px Arial";
 ctx.fillStyle="blue";
 var a=e*180/Math.PI 
@@ -1515,8 +1541,8 @@ var json = JSON.stringify(ob, function(key, value) {
   for (var i = 0; i < s.length; i++) {
       if (s[i] === "(") c++;
       if (s[i] === ")") c--;
-     // alert(c)
-      if (c == 0 && s[i]===")") {ii=i;i=s.length;}//alert(ii+"\n\n"+s+"\n\n\n"+ s.substring(0, ii+1))
+     
+      if (c == 0 && s[i]===")") {ii=i;i=s.length;}
  }  
  //alert(ii)
  var pa = varname+"." + key + s.substring(0, ii+1);// + 1"\n"
@@ -1609,6 +1635,12 @@ drawL(ctx,100,100,100,2)
 
 selmopc = function (v){
 
+if(v==="show obglocal"){
+obgs=localStorage.getItem("obglocal")
+
+alert(obgs)
+}
+
  msg=v;
 onmen.click();
 
@@ -1654,9 +1686,46 @@ var s=`
 
 container.innerHTML=s+`
 Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">Pixabay</a>
-`
-
-	
+`	
 }
+
+
+function speak(txt){
+////////////////////////
+ // Create a SpeechSynthesisUtterance
+  const utterance = new SpeechSynthesisUtterance(txt);
+
+  // Select a voice
+  const voices = speechSynthesis.getVoices();
+  utterance.voice = voices[0]; // Choose a specific voice
+
+  // Speak the text
+  speechSynthesis.speak(utterance);
+
+}
+selPoint = function(p){
+
+
+
+alert(p)
+
+}
+
+function setUpPoints(){
+//ps=JSON.parse(localStorage.getItem("obglocal",{})};
+
+var ps=obg.points;
+var s="";//"<option>select a point</option";
+
+for(var i=0;i<ps.length;i++){
+if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
+
+}
+spoints.innerHTML="<option>Select a point</option"+s;
+
+alert(ps);
+
+}
+
 </script>
 </HTML>
