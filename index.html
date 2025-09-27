@@ -101,7 +101,10 @@ button{
 
 
 <button class="cbo" onclick="ress.prepend(canvas);coo.scrollLeft = 0;opcanvas='can';">Com</button>
+<button class="cbo" onclick="ress.prepend(canvasv);coo.scrollLeft = 0;opcanvas='cv';">LeV</button>
+<button class="cbo" onclick="ress.prepend(canvash);coo.scrollLeft = 0;opcanvas='ch';">LeH</button>
 
+<button class="cbo" onclick="ress.prepend(canvasb);coo.scrollLeft = 0;opcanvas='cb';">LeB</button>
 
 <button class="cbo" onclick="ress.prepend(can3d);coo.scrollLeft = 0;">3</button>
 <button class="cbo" onclick="ress.prepend(container);coo.scrollLeft = 0;">D</button>
@@ -110,12 +113,12 @@ button{
 <div id="coo">
 <div id="ress">
     <canvas id="canvas" class="els">canvas</canvas>
-       <canvas id="canvasv" class="els" style="display:none;">canvas</canvas>
-        <canvas id="canvash" class="els" style="display:none;">canvas</canvas>
-    <canvas id="canvasb" class="els" style="display:none;">canvas</canvas>
+       <canvas id="canvasv" class="els">canvas</canvas>
+        <canvas id="canvash" class="els">canvas</canvas>
+    <canvas id="canvasb" class="els">canvas</canvas>
 
 
-<textarea id="textarea" class="els" placeholder=" texarea"></textarea>
+<textarea id="textarea" class="els" placeholder=" texarea";style="width:45%;"></textarea>
 
 <canvas id="can3d" class="els">3d canvas</canvas>
 <div id="container" class="els" >div testing</div>
@@ -1139,9 +1142,9 @@ var color="rgba(50,255,50,.5)"
 var ofx=0, ofy=0, r=canvas.height/2-5, cx=r+ofx, cy=r+ofy, o={} , di=0, ch=false,v=0;
      ctx = canvas.getContext('2d');
 prepareCom(ctx);
-//prepareLevV(ctxv);
-//prepareLevH(ctxh);
-//prepareLevB(ctxb)
+prepareLevV(ctxv);
+prepareLevH(ctxh);
+prepareLevB(ctxb)
 
 var a=Math.PI/4+.3
  var i=-Math.PI/2;
@@ -1218,11 +1221,11 @@ ctx.fillText("Level h(Z): "+az, r*1.30, r*2.00);
 //textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
 
 
-//drawL(ctxv,ay*Math.PI/180);
+drawL(ctxv,ay*Math.PI/180);
 
-//drawL(ctxh,ax*Math.PI/180)
+drawL(ctxh,ax*Math.PI/180)
 
-//drawL(ctxb,az*Math.PI/180);
+drawL(ctxb,az*Math.PI/180);
 
 if(canvas.fa!=-1){
 msg=menuopc.value+"  "+canvas.fa;
