@@ -1,0 +1,21 @@
+
+
+
+
+canvash.style.display="none";
+canvasb.style.display="none";
+canvasv.style.display="none";
+
+
+var ss=`
+<div id="dpsts" style="width:60%;height:20%;position:relative;top:30%;left:20%;border-style"solid">
+<select id="pfrom" oninput="selfrom(this.value)"></select>
+<select id="pto"oninput="selfrom(this.value)"></select>
+<textarea id="respts" style="width:80%;height:50%;"></textarea>
+
+</div>
+`
+
+//alert(s)
+//container.style.position="absolute";
+container.innerHTML+=ss;
