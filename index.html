@@ -176,9 +176,21 @@ button{
     
 </div>
 
+<div id="dpsts" style="width:60%;height:30%;position:absolute;top:20%;left:20%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);">
+<select id="pfrom" oninput="selfrom(this.value)"></select>
+<select id="pto"oninput="selfrom(this.value)"></select>
+<textarea id="respts" style="width:80%;height:50%;"></textarea>
+
+
+
+    <br>
+    <button onclick="dpsts.style.display='none'">Close</button>
+
+
+</div>
 
 <script>
-
+dpsts.display='none';
 	var linkapollo="https://raw.githubusercontent.com/ljaureguil/Compass_Level/refs/heads/main/apollo.txt";
 	sapollo="";
 loadDoc("https://raw.githubusercontent.com/ljaureguil/Compass_Level/refs/heads/main/apollo.txt",function(r){sapollo=r});
@@ -190,14 +202,6 @@ var renderCodes="";
 var ctx = canvas.getContext("2d");//,ctxv = canvasv.getContext("2d"),ctxh = canvash.getContext("2d"),ctxb = canvasb.getContext("2d");
 
 ctx.clearRect(0, 0, canvas.width, canvas.height);
-/*
-
-m=canvas.getClientRects()[0];
-ra=m.height/m.width;
-
-canvas.width = m.width;
-canvas.height = m.height;
-*/
 
 
     link="https://jsonblob.com/api/1387824581984837632"
@@ -998,7 +1002,7 @@ menuopc.innerHTML=`
 <option>find obs</option>
 <option>calc dist from 2 points</option>
 <option>save obs and keep same reference</option>
-<option>show obglocal</option>
+<option>show Points dlg</option>
 
 <option></option>
 `
@@ -1077,8 +1081,9 @@ if(v==="Save point to web"){
 
 }
 
-if(v==="show obglocal"){
+if(v==="show Points dlg"){
 obgs=localStorage.getItem("objlocal")
+dpsts.style.display='block'
 
 alert(obgs)
 }
@@ -1576,10 +1581,12 @@ drawL(ctx,100,100,100,2)
 
 selmopc = function (v){
 
-if(v==="show obglocal"){
-obgs=localStorage.getItem("obglocal")
+if(v==="show Points dlg"){
+obgs=localStorage.getItem("obglocal");
 
-alert(obgs)
+dpsts.style.display="block"
+alert(obgs);
+
 }
 
  msg=v;
@@ -1632,20 +1639,6 @@ Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/
 
 
 
-
-
-var ss=`
-<div id="dpsts" style="width:60%;height:20%;position:relative;top:30%;left:20%;border-style"solid">
-<select id="pfrom" oninput="selfrom(this.value)"></select>
-<select id="pto"oninput="selfrom(this.value)"></select>
-<textarea id="respts" style="width:80%;height:50%;"></textarea>
-
-</div>
-`
-
-//alert(s)
-//container.style.position="absolute";
-container.innerHTML+=ss;
 
 
 
