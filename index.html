@@ -101,10 +101,6 @@ button{
 
 
 <button class="cbo" onclick="ress.prepend(canvas);coo.scrollLeft = 0;opcanvas='can';">Com</button>
-<button class="cbo" onclick="ress.prepend(canvasv);coo.scrollLeft = 0;opcanvas='cv';">LeV</button>
-<button class="cbo" onclick="ress.prepend(canvash);coo.scrollLeft = 0;opcanvas='ch';">LeH</button>
-
-<button class="cbo" onclick="ress.prepend(canvasb);coo.scrollLeft = 0;opcanvas='cb';">LeB</button>
 
 <button class="cbo" onclick="ress.prepend(can3d);coo.scrollLeft = 0;">3</button>
 <button class="cbo" onclick="ress.prepend(container);coo.scrollLeft = 0;">D</button>
@@ -113,10 +109,7 @@ button{
 <div id="coo">
 <div id="ress">
     <canvas id="canvas" class="els">canvas</canvas>
-       <canvas id="canvasv" class="els">canvas</canvas>
-        <canvas id="canvash" class="els">canvas</canvas>
-    <canvas id="canvasb" class="els">canvas</canvas>
-
+  
 
 <textarea id="textarea" class="els" placeholder=" texarea";style="width:45%;"></textarea>
 
@@ -194,7 +187,7 @@ loadDoc("https://raw.githubusercontent.com/ljaureguil/Compass_Level/refs/heads/m
 
     var opcanvas="can"
 var renderCodes="";
-var ctx = canvas.getContext("2d"),ctxv = canvasv.getContext("2d"),ctxh = canvash.getContext("2d"),ctxb = canvasb.getContext("2d");
+var ctx = canvas.getContext("2d");//,ctxv = canvasv.getContext("2d"),ctxh = canvash.getContext("2d"),ctxb = canvasb.getContext("2d");
 
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 /*
@@ -1009,7 +1002,7 @@ menuopc.innerHTML=`
 
 <option></option>
 `
-
+/*
 if(menuopc.parentNode.innerHTML.indexOf('id="spoints"')===-1){
 menuopc.parentNode.innerHTML+=`
 <select id="spoints" oninput='selPoint(this.value)'>
@@ -1019,7 +1012,7 @@ menuopc.parentNode.innerHTML+=`
 
 `
 }
-
+*/
 
 
 
@@ -1033,10 +1026,10 @@ var msg="", azimuth=0,zenith=0;
 
 
 iniccanv(canvas)
-iniccanv(canvash)
-iniccanv(canvasb)
+//iccanv(canvash)
+//iccanv(canvasb)
 
-iniccanv(canvasv)
+//iniccanv(canvasv)
 function iniccanv(canvas){
 
     m=canvas.getClientRects()[0];
@@ -1170,9 +1163,9 @@ var color="rgba(50,255,50,.5)"
 var ofx=0, ofy=0, r=canvas.height/2-5, cx=r+ofx, cy=r+ofy, o={} , di=0, ch=false,v=0;
      ctx = canvas.getContext('2d');
 prepareCom(ctx);
-prepareLevV(ctxv);
-prepareLevH(ctxh);
-prepareLevB(ctxb)
+//epareLevV(ctxv);
+//epareLevH(ctxh);
+//epareLevB(ctxb)
 
 var a=Math.PI/4+.3
  var i=-Math.PI/2;
@@ -1366,63 +1359,6 @@ function handleMotionEvent(e){
 
 }
 
-function drawS2(cx, cy, r,i,f){
-var w=3*r-cx, h=3*r-cy
-
-
-ctx.save();
-ctx.translate((w+ofx)/2,(h+ofy)/2);
-ctx.rotate(f+Math.PI/2);
-
-
-
-
-ctx.drawImage(img,-(w+ofx)/2,-(h+ofy)/2,w+ofx,h+ofy);
-
-ctx.restore();
-
-
-ctx.save ()
-ctx.globalAlpha = 0.25;
-ctx.drawImage(img,ofx,ofy,w+ofx,h+ofy);
-ctx.restore ()
-
-    ctx.beginPath();
-ctx.moveTo(cx,cy);
-    ctx.arc(cx, cy, r,i,f);
-
-ctx.closePath();
-    ctx.fillStyle = 'rgba(50,255,50,.2)';
-    ctx.fill();
-
-
-   ctx.beginPath();
-ctx.moveTo(cx,cy);
-    ctx.arc(cx, cy, r,f,i);
-
-ctx.closePath();
-    ctx.fillStyle = 'rgba(255,100,50,.2)';
-    ctx.fill();
-
-ctx.beginPath();
-var x=Math.cos (f)*r+cx
-var y=Math.sin (f)*r+cy
-
-    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
-
-    ctx.fillStyle = 'rgba(255,2,0,.5)';
-    ctx.fill();
-
-
-ctx.beginPath();
-var x=Math.cos (i)*r+cx
-var y=Math.sin (i)*r+cy
-
-    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
-
-    ctx.fillStyle = 'rgba(0,255,255,.5)';
-    ctx.fill();
-}
 
 function drawS(cx, cy, r,i,f){
 var o=ctx.canvas.name;
@@ -1692,6 +1628,27 @@ var s=`
 container.innerHTML=s+`
 Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">Pixabay</a>
 `	
+
+
+
+
+
+
+var ss=`
+<div id="dpsts" style="width:60%;height:20%;position:relative;top:30%;left:20%;border-style"solid">
+<select id="pfrom" oninput="selfrom(this.value)"></select>
+<select id="pto"oninput="selfrom(this.value)"></select>
+<textarea id="respts" style="width:80%;height:50%;"></textarea>
+
+</div>
+`
+
+//alert(s)
+//container.style.position="absolute";
+container.innerHTML+=ss;
+
+
+
 }
 
 
@@ -1726,7 +1683,9 @@ for(var i=0;i<ps.length;i++){
 if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
 
 }
-spoints.innerHTML="<option>Select a point</option"+s;
+//spoints.innerHTML="<option>Select a point</option"+s;
+    pfrom.innerHTML="<option>Select a point</option"+s;
+    pto.innerHTML="<option>Select a point</option"+s;
 
 alert(ps);
 
