@@ -178,7 +178,7 @@ button{
 
 <div id="dpsts" style="width:60%;height:30%;position:absolute;top:20%;left:20%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);">
 <select id="pfrom" oninput="selfrom(this.value)"></select>
-<select id="pto"oninput="selfrom(this.value)"></select>
+<select id="pto"oninput="selto(this.value)"></select>
 <textarea id="respts" style="width:80%;height:50%;"></textarea>
 
 
@@ -1106,7 +1106,7 @@ var k=false,opt="",obg={} ;obg.points=arp;obg.obs=[];
 obg=JSON.parse(localStorage.getItem("objlocal","{}"))
 
 //alert(obg);
-if(obg!=null) setUpPoints()
+//if(obg!=null) setUpPoints()
 var img=document.createElement("img");
 
 var opt=""
@@ -1584,7 +1584,8 @@ selmopc = function (v){
 if(v==="show Points dlg"){
 obgs=localStorage.getItem("obglocal");
 
-dpsts.style.display="block"
+dpsts.style.display="block";
+setUpPoints();
 alert(obgs);
 
 }
@@ -1668,7 +1669,8 @@ alert(p)
 
 function setUpPoints(){
 //ps=JSON.parse(localStorage.getItem("obglocal",{})};
-
+pfrom.innerHTML="<option>From point</option.";
+    pto.innerHTML="<option>To point</option>"
 var ps=obg.points;
 var s="";//"<option>select a point</option";
 
@@ -1677,10 +1679,37 @@ if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
 
 }
 //spoints.innerHTML="<option>Select a point</option"+s;
+  
     pfrom.innerHTML="<option>Select a point</option"+s;
     pto.innerHTML="<option>Select a point</option"+s;
-alert(ptfrom.innerHTML)
-alert(ps);
+
+//alert(ps);
+
+}
+function selto(v){
+for(var i=0;i<obg.length;i++){
+    if(obg[i].id===v){ pfrom.punto=obj[i];calccoord()}
+}
+
+}
+function selfrom(v){
+
+for(var i=0;i<obg.length;i++){
+    if(obg[i].id===v){ pto.punto=obj[i];calccoord()}
+}
+}
+function calccoord(){
+    var a,b;
+    if(pfrom.punto!=undefined) a=pfrom.punto;
+    else {alert("choose 'from point'");return}
+    if(pto.punto!=undefined) b=pto.punto;
+    else {alert("Choose 'to point'");return}
+
+    var obs=Mat.getObsG(a,b);
+    
+alert(JSON.stringify(obs));
+respts.value=JSON.stringify(obs);
+
 
 }
 
