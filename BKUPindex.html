@@ -1,0 +1,1717 @@
+<HTML>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="https://gimgs2.nohat.cc/thumb/f/640/compass-clipart-illustration-vector-free-free-vector-rawpixel--comrawpixel7372145.jpg">
+    <title>Compass_Level</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+<style>
+    #todo{
+//margin: 5px;
+
+
+
+    }
+#editor{
+    padding:5px;
+width:100%;
+height:30%;
+//background-color: red;;
+//color: white;
+
+
+}
+
+#container{
+//display:inline-block;
+  float:right;
+  background-color: white;
+  color:blank;
+
+
+}
+#canvas{
+
+ }
+#menu{
+    position: absolute;;
+    width: 80%;
+    height: 25%;
+    top:55%;
+    left: 5%;
+    background-color: antiquewhite;
+    display: none;
+    padding: 15px;
+    box-shadow: -5px 5px 20px rgba(200,200,200,.95);
+    border-style: solid;
+
+
+}
+select{
+    width:35%;
+    margin: 8px;
+}
+button{
+    width: 40%;
+    margin: 10px;
+}
+#coo{
+    width: 100%;
+    height:65%;
+    overflow:auto;
+ 
+}
+#ress{
+    display:flex;
+ 
+ bottom:1%;
+    width: 300%;
+    height: 100%;
+    background:white;
+
+
+}
+.els {
+ width:33%;
+ height:95%;
+ margin: 5px;
+  border-style: solid;
+        box-shadow: -5px 5px 20px rgba(200,200,200,.95);
+
+
+}
+.cbo{
+    margin: 5px;
+    width: auto;
+    background-color: red;
+    color: white;
+    font-size: 10px;
+}
+
+</style>
+<button onclick="alert(about)" style="position:absolute;top:2%;right:2%;background-color: red;color:white;width: auto;;" >?</button>
+<div id="todo">
+<textarea id="editor" placeholder="Type your codes here...(for your variables use var *recommended)"></textarea>
+
+
+<button  onclick="procesar(editor.value)">Process</button>
+<button id="onmen" onclick="if(menu.style.display==='block'){menu.style.display='none';this.style.background='#eeeeee'}else {menu.style.display='block';this.style.background='#00ff00'}">Menu</button>
+<button class="cbo" onclick="ress.prepend(textarea);coo.scrollLeft = 0;">Txt</button>
+
+
+<button class="cbo" onclick="ress.prepend(canvas);coo.scrollLeft = 0;opcanvas='can';">Com</button>
+
+<button class="cbo" onclick="ress.prepend(can3d);coo.scrollLeft = 0;">3</button>
+<button class="cbo" onclick="ress.prepend(container);coo.scrollLeft = 0;">D</button>
+<button class="cbo" onclick="dcal.style.display='block';" style="background-color: blue;"> &radic;</button>
+
+<div id="coo">
+<div id="ress">
+    <canvas id="canvas" class="els">canvas</canvas>
+  
+
+<textarea id="textarea" class="els" placeholder=" texarea";style="width:45%;"></textarea>
+
+<canvas id="can3d" class="els">3d canvas</canvas>
+<div id="container" class="els" >div testing</div>
+
+
+</div>
+</div>
+
+<div id="menu">
+<select id="sselopc" oninput="selopc(this.value)">
+ 
+    <option>Select Option</option>
+ 
+      <option>Save project</option>
+      <option>Save project to web</option>    
+      <option>Delete actual project</option>
+      <option>Set Up 3d Canvas</option>
+
+
+  
+       <option>New project</option>  
+
+
+<option></option>
+     <option>Delete all projects</option>    
+</select>
+
+
+<select id="spr" oninput="selPr(this.value)">
+    <option>Select Prtoject</option>
+</select> 
+   <button class="cbo" onclick="selPr(spr.value)">Go</button>
+<select id="menuopc" oninput="selmopc(this.value)">
+
+</select>
+<select id="sweb" oninput="selPrw(this.value)">
+<option>Select from Web</option>
+<option></option>
+</select>
+   <button class="cbo" onclick="selPrw(sweb.value)">Go</button>
+
+<select id="scanv3d" oninput="if(this.value!='Select a method')insertTx(this.value)">
+    <option>Select a method</option>
+    <option>includes("/*Project name*/");</option>
+    <option>esena.add( )</option>
+    <option>renderCodes=""</option>
+    <option>crDot(params={d:.5,texture:"",color:0xaaaaaa})</option>
+    <option>crCube(params={w:1,h:1,d:1,texture:"",color:0xaaaaaa})</option>
+  <option>crSphere(params={r:1,segsx:32,segsy:16,texture:"",color:0xaaaaaa})</option>
+  <option>crCylinder(params={r1:1,r2:1,long:1,cap:true,segsx:32,segsy:16,texture:"",color:0xaaaaaa})</option>
+  <option>crLine(params={arPoints:[[0,0,0],[1,1,1]],color:0xaaaa})</option>
+
+</select>
+
+</div>
+<div id="dcal" style="display:none;position:absolute;width: 51%;height: 30%;top:15%;left:23%;background:rgba(255,255,255,.5);border-style: solid;text-align: center;overflow: auto;">
+    <textarea id="tcal" style="width: 94%;height: 80%;margin:3px;padding:5px;"></textarea>
+      <button class="cboo" onclick="dcal.style.display='none';" style="position:absolute;bottom:0%;left:1%;width:auto;">Close</button>
+              <button class="cbo" onclick="tcal.value='';" >Clear</button>
+       <button class="cboo" onclick="var w=eval(tcal.value);tcal.value+='\n\n/*\nResults: '+w+'\n*/'" style="position:absolute;bottom:1%;right:1%;width:auto;">Calc</button>
+      
+    
+</div>
+
+<div id="dpsts" style="width:60%;height:30%;position:absolute;top:20%;left:20%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);">
+<select id="pfrom" oninput="selfrom(this.value)"></select>
+<select id="pto"oninput="selto(this.value)"></select>
+<textarea id="respts" style="width:80%;height:50%;"></textarea>
+
+
+
+    <br>
+    <button onclick="dpsts.style.display='none'">Close</button>
+
+
+</div>
+
+<script>
+dpsts.display='none';
+	var linkapollo="https://raw.githubusercontent.com/ljaureguil/Compass_Level/refs/heads/main/apollo.txt";
+	sapollo="";
+loadDoc("https://raw.githubusercontent.com/ljaureguil/Compass_Level/refs/heads/main/apollo.txt",function(r){sapollo=r});
+
+    obmotion={x:0,y:0,z:0};
+
+    var opcanvas="can"
+var renderCodes="";
+var ctx = canvas.getContext("2d");//,ctxv = canvasv.getContext("2d"),ctxh = canvash.getContext("2d"),ctxb = canvasb.getContext("2d");
+
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+    link="https://jsonblob.com/api/1387824581984837632"
+var arpr=[],actual="",arw=[], obactual=[],from="local";
+//localStorage.removeItem("projects")
+GetJ(link,function(r){
+arw=r;
+setupprw()
+})
+
+
+
+
+    var ll=localStorage.getItem("projects");
+    if(ll!=null){
+ 
+arpr=JSON.parse(ll);
+
+
+    }
+
+
+setuppr();
+    function setuppr(){
+    spr.innerHTML="<option>Select a project</option>"
+    for(var i=0;i<arpr.length;i++){
+        e=arpr[i];
+ 
+        spr.innerHTML+="<option>"+e.name+"</option>"
+ 
+    }
+ 
+    }
+//sessionStorage();
+    function setupprw(){
+    sweb.innerHTML="<option>Select a web project</option>"
+    for(var i=0;i<arw.length;i++){
+        e=arw[i];
+ 
+        sweb.innerHTML+="<option>"+e.name+"</option>"
+ 
+    }
+ 
+    }
+   
+setUp3dCanvas();
+
+function procesar(v){
+  //  alert(v)
+clrEsena()
+if(v==="") inicapp();
+else eval(v)
+}
+
+
+function selPr(v){
+    actual=v;
+     var ind=verifypr(v);
+ 
+    if(ind>-1) {
+        obactual=arpr[ind];
+        from="local"
+ 
+        editor.value=arpr[ind].cont;
+        procesar(editor.value);
+     //   selPr.value="Select a project";
+    }
+}
+function selopc(v){
+
+
+ 
+     if(v==="Save project to web") {
+        var n=obactual.name;
+ 
+          //  if(n===undefined){
+                var n=prompt("Type project name",n);
+                if(n===null) return;
+                if(n!="") obactual={name:n,cont:editor.value}
+                else {alert("Wrong name, try again");return;}
+
+
+          //  }
+
+          verifyprw(n,function(ind){
+      
+            if(ind==-1){
+             
+      if(confirm("This project will be sent to web, are you sure?")){
+
+
+        arw.push(obactual);
+        UpdateJ(link,arw,function(){alert("Project "+obactual.name+"  has been saved in web");setupprw()})
+
+
+        }
+    }
+    else{
+
+
+    if(confirm("Project already exist in web, do you want to replace it?")){
+        arw[ind].cont=editor.value;
+     UpdateJ(link,arw,function(){alert("Project "+obactual.name+" has been saved in web")})
+     alert("Project "+n+" has been updated");
+
+
+    }
+
+    }
+    })
+       
+      }
+
+      if(v==="Set Up 3d Canvas") {setUp3dCanvas();}
+      
+       if(v==="New project") {obactual={};editor.value="";textarea.value="";actual=""}
+       if(v==="Delete all projects"){
+
+
+        if(confirm("Are you sure you want to delete all local projects?")){
+            if(confirm("I am ready to delete all projects, proceed?")){
+                
+                localStorage.removeItem("projects");
+                alert("App will restart");
+                window.location.reload();
+            }
+        }
+    }
+    if(v==="Delete actual project"){
+        
+        var s="";
+        if(from!="local"){
+            verifyprw(sweb.value,function(ind){
+                if(ind>-1 && confirm("Project found, do you want to proceed deleting it?")){
+                arw.splice(ind,1);
+ 
+                       UpdateJ(link,arw,function(){alert("Project has been deleted from web/n/nThe app will restart"); window.location.reload();})
+
+           } 
+        })
+
+        }
+        else{
+            var ind=verifypr(spr.value);
+            if(ind>-1 && confirm("Project local found, do you want to proceed deleting it?")){
+                                  arpr.splice(ind,1);  
+                localStorage.setItem("projects",JSON.stringify(arpr));
+                alert("Project has been deleted, app will restart");
+                 window.location.reload();
+}
+        }
+
+
+    }
+if(v==="Save project"){
+
+
+    var n=prompt("Type project name",actual);
+    var ind=verifypr(n)
+    if(ind===-1){
+ 
+var o={};
+o.name=n;
+o.cont=editor.value;
+arpr.push(o);
+//alert(JSON.stringify(arpr));
+localStorage.setItem("projects",JSON.stringify(arpr));
+alert("Project "+n+" has been saved locally")
+setuppr();
+
+
+    }
+else {
+    if(confirm("Project already exist, do you want to replace it?")){
+        arpr[ind].cont=editor.value;
+     localStorage.setItem("projects",JSON.stringify(arpr));  
+     alert("Project "+n+" has been updated");
+
+
+    }
+
+
+}
+
+
+}
+setTimeout('sselopc.value="Select Option"',1500);
+}
+
+
+function verifypr(v,ar){
+    ///aqui
+      for(var i=0;i<arpr.length;i++){
+        var e=arpr[i];
+        if(e.name===v){
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+function verifyprw(v,callback){
+
+GetJ(link,function(r){
+arw=r;
+
+     for(var i=0;i<arw.length;i++){
+        var e=arw[i];
+      
+        if(e.name===v){
+            
+              if(callback!=undefined) callback(i)
+            return i;
+        }
+    }
+if(callback!=undefined) callback(-1)
+    return -1;
+
+
+
+})
+
+
+
+ 
+}
+function selPrw(v){
+
+    actual=v;//var ind=
+     verifyprw(v,function(ind){
+ 
+    if(ind>-1) {
+        obactual=arw[ind];
+        from="web"
+ 
+        editor.value=arw[ind].cont;
+
+        procesar(editor.value);
+        onmen.click();
+     //   selPr.value="Select a project";
+    }
+
+    });
+}
+
+
+
+
+
+
+
+
+    function GetJ(url, callback) {
+
+
+            //var url  = "http://localhost:8080/api/v1/users";
+            var xhr = new XMLHttpRequest()
+            xhr.open('GET', url + '/1', true)
+            xhr.onload = function() {
+                //         (xhr.responseText)
+                var users = JSON.parse(xhr.responseText);
+                //     var obb=decoding(users.prim);
+
+
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    callback(users);
+                } else {
+                    console.error(users);
+                }
+            }
+            xhr.send(null);
+        }
+
+
+         // Update a user
+        function UpdateJ(url, ob, callback) {
+
+
+            json = JSON.stringify(ob);
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", url + '/12', true);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.onload = function() {
+                var users = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    //  alert("Tu Forma ha sido Enviada");
+                    if (callback != undefined) callback(users);
+                } else {
+                    (users);
+                }
+            }
+            xhr.send(json);
+        }
+
+var about=`About:
+place your codes in the editor area, if you want to show your results in a text use "textarea" variable ( ex: texarea.value='my results')
+if you want to show graphics use "canvas" variable ( ex: canvas.getContext('2d') )
+ir you need to add some HTML tags use "container" varuable ( ex: var iege=document.createElement('input') ;container.appendChild(iage) )
+**just scroll to expose texarea, canvas and (div)container elements.
+
+To save your project locally:  menu > Select Option > Save Project;
+To save you project in Web: menu > Select Option > Save in wev
+You cant transfer from local to wev or web to local just select a project and saved where you want it.
+
+`
+//setUp3dCanvas();
+function loadDoc(url,callback) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", url, false);
+        xhttp.send();
+        if(callback!=undefined)  callback(xhttp.responseText);
+        return xhttp.responseText;
+    }
+
+    function includes(s){
+    //    alert(s)
+   for(var i=0;i<arw.length;i++){
+    var e=arw[i];
+  //  alert(JSON.stringify(e))
+    if(e.name===s){ eval(e.cont); return;}
+   }
+
+
+}
+    
+function setUp3dCanvas(){
+
+//threejs
+loadDoc("https://raw.githubusercontent.com/ljaureguil/Panorama360/refs/heads/main/three.js",function(r){
+   // eval(r);
+var s = document.createElement("script");
+s.innerHTML = r;
+document.head.appendChild(s);
+    //alert(r);
+    //alert("three.js loaded");
+
+  //  alert("three.js loaded");
+    loadDoc("https://raw.githubusercontent.com/ljaureguil/Panorama360/refs/heads/main/TrackballControls.js",function(r){
+     //   eval(r);
+//alert(r)
+
+s.innerHTML = r;
+        eval(r)
+document.head.appendChild(s);
+
+       // alert("TrackballControls.js loaded");
+//alert(THREE.TrackballControls)
+
+        loadDoc("https://raw.githubusercontent.com/ljaureguil/Panorama360/refs/heads/main/js/DeviceOrientationControls.js",function(r){
+        //    eval(r);alert(r)
+s.innerHTML = r;
+document.head.appendChild(s);
+           // alert("DeviceOrientationControls.js loaded");
+            init3dCanvas()
+
+
+        
+        })
+    })
+
+})
+
+}
+
+
+function init3dCanvas(){
+      //init 3d canvas
+   //   alert( THREE)
+     // alert("init3dCanvas..................");
+     scene = new THREE.Scene(), esena = new THREE.Group();scene.add(esena)
+       camera = new THREE.PerspectiveCamera(75, canvas.width / canvas.height, 0.1, 1000);
+     renderer = new THREE.WebGLRenderer({canvas:can3d});//can3
+   
+    renderer.setSize(canvas.width, canvas.height);//window.innerWidth,window.innerHeight);//canvas.width, canvas.height);
+
+           s = new THREE.Mesh(
+                new THREE.SphereGeometry(.3, 16, 16),
+                new THREE.MeshPhongMaterial({
+                      color: "#f0ff00"
+                })
+            );
+
+const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+scene.add( directionalLight );
+
+
+
+            light4 = new THREE.PointLight(0xffffff, 2, 1000);
+            light4.add(s);
+            s.position.set(0, 4, -3);
+
+            scene.add(light4);
+ 
+             alight = new THREE.AmbientLight(0xaaaaaa);
+            scene.add(alight)
+    var geometry = new THREE.BoxGeometry();
+    var material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+    var cube = new THREE.Mesh(geometry, material);
+    esena.add(cube);
+
+          controls = new THREE.TrackballControls(camera, renderer.domElement); //camera
+            controls.zoomSpeed = .48;//1.2;
+            controls.panSpeed = .36;//0.8;
+
+            controls.keys = ['KeyA', 'KeyS', 'KeyD'];
+          //  window.addEventListener('resize', onWindowResize, false);
+          //  setTimeout(function(){ onWindowResize();},100) 
+
+    camera.position.z = 5;
+
+    function animate() {
+        requestAnimationFrame(animate);
+     controls.update();
+     if(renderCodes!="") eval(renderCodes)
+      //  cube.rotation.x += 0.01;
+      //  cube.rotation.y += 0.01;
+        renderer.render(scene, camera);
+    //    textarea.value = "x: " + cube.rotation.x.toFixed(2) + ", y: " + cube.rotation.y.toFixed(2);
+    }
+   // alert("ready to animate");
+    animate();
+}
+
+
+
+
+</script>
+
+<script>
+
+
+function crCube(params={w:1,h:1,d:1,texture:"",color:0xaaaaaa}){
+     var geometry = new THREE.BoxGeometry(params.w,params.h,params.d);
+    var material = new THREE.MeshPhongMaterial({ color: params.color });
+ var loader = new THREE.TextureLoader();
+    loader.load(params.textura, function(texture) {
+        material.map = texture
+    });
+    var cube = new THREE.Mesh(geometry, material);
+    return cube;
+}
+
+function crDot(params={d:.5,texture:"",color:0xaaaaaa}){
+     var geometry = new THREE.SphereGeometry( params.d/2, 32, 16 ); 
+    var material = new THREE.MeshPhongMaterial({ color: params.color });
+ var loader = new THREE.TextureLoader();
+    loader.load(params.textura, function(texture) {
+        material.map = texture
+    });
+    var dot = new THREE.Mesh(geometry, material);
+    return dot;
+}
+
+function crSphere(params={r:1,segsx:32,segsy:16,texture:"",color:0xaaaaaa}){
+     var geometry = new THREE.SphereGeometry( params.r, params.segsx, params.segsy ); 
+    var material = new THREE.MeshPhongMaterial({ color: params.color });
+ var loader = new THREE.TextureLoader();
+    loader.load(params.textura, function(texture) {
+        material.map = texture
+    });
+    var sphere = new THREE.Mesh(geometry, material);
+    return sphere;
+}
+
+function crCylinder(params={r1:1,r2:1,long:1,cap:true,segsx:32,segsy:16,texture:"",color:0xaaaaaa}){
+     var geometry = new THREE.CylinderGeometry( params.r1,params.r2, params.segsx, params.segsy, params.cap ); 
+    var material = new THREE.MeshPhongMaterial({ color: params.color });
+ var loader = new THREE.TextureLoader();
+    loader.load(params.textura, function(texture) {
+        material.map = texture
+    });
+    var cylinder = new THREE.Mesh(geometry, material);
+    return cylinder;
+}
+
+function crLine(params={arPoints:[[0,0,0],[1,1,1]],color:0xaaaa}){
+var points=[];
+params.arPoints.forEach(e => {
+   points.push( new THREE.Vector3( e[0], e[1], e[2] ) );
+});
+const material = new THREE.LineBasicMaterial({
+	color: params.color
+});
+
+const geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+const line = new THREE.Line( geometry, material );	
+return line;	
+
+}
+
+
+function clrEsena(){
+var ar=esena.children,i=0;
+for(var i=0;i<ar.length;i++){
+
+
+}
+
+esena.children.forEach(e =>{
+ //   alert(JSON.stringify(e))
+    e.geometry.dispose();e.material.dispose();
+    esena.remove(e)
+   // group.remove(e)
+})
+}
+
+function insertTx(v){
+      var t=editor.value;
+        var i=editor.selectionStart;
+        var p1=t.slice(0,i);p2=t.slice(editor.selectionEnd,editor.value.length)
+        var e=p1 +v+ p2;
+        editor.value=e;
+        editor.focus();
+        editor.selectionEnd=i+v.length;
+
+
+}
+
+
+
+
+</script>
+<script>
+
+    Mat = {
+        // pii: Math.PI,
+        toRad(a) {
+            return a * Math.PI / 180
+        },
+        toDeg(a) {
+            return 180 * a / Math.PI
+        },
+        getObsG(p1, p2) {
+            var dx = p2.x - p1.x,
+                dy = p2.y - p1.y,
+                dz = p2.z - p1.z;
+            if (dx === 0) dx = .000000000000001;
+            //     alert(dx)
+
+
+            var d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            var v = Math.PI / 2 - Math.asin(dy / d); //arcsin (dz / d);
+            var az = Math.atan(dz / dx); //arctan((x2 –x1)/(y2 –y1));
+
+            var c = 1;
+
+            if (dx >= 0 && dz >= 0) c = 2;
+            if (dx >= 0 && dz <= 0) c = 1;
+            if (dx <= 0 && dz <= 0) c = 4;
+            if (dx <= 0 && dz >= 0) c = 3;
+            //         alert("dx "+dx+"\ndz "+dz+"\nc "+c)  
+            var Az = this.radToAz(az, c);
+
+            //     alert("flib\n\n"+Az)
+
+            return {
+                A: Az,
+                V: this.toDeg(v),
+                D: d,
+                az: this.toRad(Az),
+                v: v,
+                d: d,
+                dx: Math.cos(dy / d),
+                dy: dy
+            }
+        },
+        getObs(p1, p2, Gr) {
+            var dx = p2.x - p1.x,
+                dy = p2.y - p1.y,
+                dz = p2.z - p1.z;
+            if (dy === 0) dy = .0000000000001;
+
+
+            var d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            var v = Math.PI / 2 - Math.asin(dz / d); // alert(v)//arcsin (dz / d);
+            var az = Math.atan(dx / dy); //arctan((x2 –x1)/(y2 –y1));
+            var c = 1;
+            if (dx >= 0 && dy >= 0) c = 1;
+            if (dx >= 0 && dy <= 0) c = 2;
+            if (dx <= 0 && dy <= 0) c = 3;
+            if (dx <= 0 && dy >= 0) c = 4;
+            //  alert(dy+"\nFrom MyLib:\n\n"+this.getAzRadians(az, c))
+
+            return {
+                Az: this.toDeg(this.getAzRadians(az, c)),
+                V: this.toDeg(v),
+                D: d,
+                dhz: Math.sqrt(dy * dy + dx * dx),
+                dx: dx, //Math.cos(dy / d),
+                dy: dy,
+                dz: dz,
+                az: this.getAzRadians(az, c),
+                v: v
+
+
+            }
+        },
+        getAzDeg(an, c) {
+            if (an < 0) an = an * -1;
+            if (c == 1) an = an;
+            if (c == 2) an = 180 - an;
+            if (c == 3) an = 180 + an;
+            if (c == 4) an = 360 - an;
+            return an;
+
+        },
+        getAzRadians(a, c) {
+            var an = a;
+            if (an < 0) an = an * -1;
+            if (c == 1) an = an;
+            if (c == 2) an = Math.PI - an;
+            if (c == 3) an = Math.PI + an;
+            if (c == 4) an = 2 * Math.PI - an;
+            return an;
+        },
+
+        radToAz(a, c) {
+
+
+            var an = this.toDeg(a);
+            //   alert(an+"\n\n"+c)
+            if (an < 0) an = an * (-1);
+            if (c == 1) an = 90 - an;
+            if (c == 2) an = 90 + an;
+            if (c == 3) an = 270 - an;
+            if (c == 4) an = 270 + an;
+            if (an === 360) an = 0;
+            return an;
+
+        },
+        degToAz(an, c) {
+            if (an < 0) an = an * -1;
+            if (c == 1) an = an;
+            if (c == 2) an = 180 - an;
+            if (c == 3) an = 180 + an;
+            if (c == 4) an = 360 - an;
+            return an;
+
+        },
+
+        //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+        calcCrow(lat1, lon1, lat2, lon2) {
+            var R = 6371; // km
+            var dLat = this.toRad(lat2 - lat1);
+            var dLon = this.toRad(lon2 - lon1);
+            var lat1 = this.toRad(lat1);
+            var lat2 = this.toRad(lat2);
+
+            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            var d = R * c;
+            return d;
+        },
+        getPos(p, a, v, d) {
+            var pos = {},
+                or = {};
+            or.p = p;
+            or.az = a;
+            or.v = v;
+            or.d = d;
+            a = 90 - a;
+            v = this.toRad(v)
+            var dx = Math.sin(v) * d;
+            var h = Math.cos(v) * d;
+            a = this.toRad(a);
+
+            pos.x = dx * Math.cos(a) + p.x;
+            pos.y = dx * Math.sin(a) + p.y;
+            pos.z = h + p.z; //dx*Math.sin(a)+p.z;
+            pos.dx = dx;
+            pos.dy = h;
+            pos.or = or;
+
+            return pos;
+
+        },
+        getPosG(p, a, v, d) {
+            var pos = {};
+            a = 90 - a;
+            v = this.toRad(v)
+            var dx = Math.cos(v) * d;
+            a = this.toRad(a);
+
+            pos.x = dx * Math.cos(a) + p.x;
+            pos.y = d * Math.sin(v) + p.y;
+            pos.z = dx * Math.sin(a) + p.z;
+            return pos;
+
+        },
+        repObj(ob) {
+            var s = JSON.stringify(ob).replace(/"/g, " ").replace(/:/g, ": ").replace(/,/g, "\n").replace(/{/g, "\n").replace(/}/g, "\n");
+            return s;
+        },
+        interByDis(a, b, c) {
+            var x1 = (a * a + c * c - b * b) / (2 * c)
+            var x2 = c - x1;
+            var ra = Math.acos(x1 / a),
+                A = this.toDeg(ra);
+            var rc = Math.acos(x2 / b),
+                C = this.toDeg(rc);
+            var rb = 2 * Math.PI - ra - rc;
+            var B = 180 - A - C;
+            return {
+                A: A,
+                B: B,
+                C: C,
+                a: ra,
+                b: rb,
+                c: rc
+            }
+        },
+        interByAng(p1, p2, an1, an2) {
+            var a1 = an1.az,
+                a2 = an2.az,
+                v1 = an1.v,
+                v2 = an2.v;
+
+            alert(JSON.stringify());
+            alert(JSON.stringify(p1));
+            alert(JSON.stringify(p2));
+            alert(JSON.stringify(a1));
+            alert(JSON.stringify(a2));
+            var dx = p2.x - p1.x;
+            var dy = p2.y - p1.y;
+            var d = Math.sqrt(dx * dx + dy * dy)
+            var a = Math.atan(dy / dx);
+            var da = 180 - (a1 + a2);
+
+            var x = Math.tan(a2) * d / (Math.tan(a1) + Math.tan(a2))
+            var y = Math.tan(a1) * x;
+            ///////////
+            var xx = x - p1.x;
+            var yy = y - p1.y;
+            var rr = Math.sqrt(xx * xx + yy * yy);
+
+            var z = p1.z - rr / Math.tan(an1.v);
+
+            //////////
+
+            var p = {}
+            p.x = x
+            p.y = y
+            p.z = z
+            p.a = Math.atan(y / x);
+            var d = Math.sqrt(x * x + y * y);
+            p.r = d;
+            var xx = d * Math.cos(a + p.a);
+            var yy = d * Math.sin(a + p.a);
+            p.xx = xx;
+            p.yy = yy;
+
+            return p
+
+        },
+        interByAngLn(inf = {
+            line1: {
+                p1,
+                p2
+            },
+            line2: {
+                p1,
+                p2
+            }
+        }) {
+            // var dx=
+        }
+
+    }
+
+
+
+</script>
+
+<script>
+
+
+
+//inicapp();
+
+
+
+
+function inicapp(){
+
+
+
+
+
+menuopc.innerHTML=`
+<option>select an option</option>
+<option>create new project</option>
+<option>calculate coordenates</option>
+<option>find Angle</option>
+<option>find Level (zenith)</option>
+<option>find obs</option>
+<option>calc dist from 2 points</option>
+<option>save obs and keep same reference</option>
+<option>show Points dlg</option>
+
+<option></option>
+`
+/*
+if(menuopc.parentNode.innerHTML.indexOf('id="spoints"')===-1){
+menuopc.parentNode.innerHTML+=`
+<select id="spoints" oninput='selPoint(this.value)'>
+<option>Sel points</option>
+
+</select>
+
+`
+}
+*/
+
+
+
+
+
+
+
+
+var msg="", azimuth=0,zenith=0;
+
+
+
+iniccanv(canvas)
+//iccanv(canvash)
+//iccanv(canvasb)
+
+//iniccanv(canvasv)
+function iniccanv(canvas){
+
+    m=canvas.getClientRects()[0];
+//    alert(JSON.stringify(canvas.getClientRects()))
+ra=m.height/m.width;
+var mr=0,gap=5;
+if(m.height>m.width)mr=m.width/2-gap;
+else mr=m.height/2-gap;
+canvas.name={r:mr,cx:m.width/2,cy:m.height/2, gap:gap}
+
+canvas.width = m.width;
+canvas.height = m.height;
+}
+
+
+pba={x:0,y:0,z:0},arp=[];
+container.actualpoint={};
+container.innerHTML=`
+<select id="ddsel" oninput="eval(myfunc.innerHTML);selopcd(this.value)">
+<option>Select an option</option>
+<option>draw line between points in order<option>
+<option>show all point object<option>
+<option><option>
+<option>Save points locally<option>
+<option>Save point to web<option>
+
+</select>
+<div id="dpts" style="width:30%;border-style:solid;"></div >
+<code id="myfunc">
+selopcd=function(v){
+alet(v)
+if(v==="draw line between points in order"){
+
+}
+
+if(v==="draw line between points in order"){
+
+}
+
+if(v==="Save points locally"){
+   
+}
+
+if(v==="Save point to web"){
+
+}
+
+if(v==="show Points dlg"){
+obgs=localStorage.getItem("objlocal")
+dpsts.style.display='block'
+
+alert(obgs)
+}
+
+
+}
+
+
+</code>
+
+
+
+`
+
+
+
+
+
+var k=false,opt="",obg={} ;obg.points=arp;obg.obs=[];
+obg=JSON.parse(localStorage.getItem("objlocal","{}"))
+
+//alert(obg);
+//if(obg!=null) setUpPoints()
+var img=document.createElement("img");
+
+var opt=""
+canvas.onclick=function(){
+
+if(!k){
+if(opt!="3") alphai =undefined;
+k=true;
+inicmeasuring();
+}
+else{
+
+k=false;
+if(menuopc.value=="calculate coordenates"){
+    var d=prompt("Type distance",1)*1;
+var cor=getCoords(ar,v,d,{x:0,y:0,z:0})
+arp.push(cor);
+var sc= JSON.stringify (cor);//obg
+k=true;
+if(confirm(sc+"\n\nSave point?")){
+cor.id=prompt("Type id","a"+obg.points.length);
+obg.points.push(cor);
+ localStorage.setItem("obglocal",JSON.stringify(obg));;//sc
+
+}
+return;
+}
+if(menuopc.value==="find obs"){
+    var d=JSON.parse(prompt('Tap compass to Zero it after you type info.\n\nType azimuth, zenith, direction ex.[ 35,85, "left"]','[ 35, 55, "left"]'));
+    canvas.obs=d;
+
+}
+else canvas.obs=null;
+
+if(menuopc.value==="find Angle"){
+//alert(menuopc.value);
+    var d=JSON.parse(prompt('Tap compass to Zero it after you type info.\n\nType azimuth and left or right direction ex.[ 10, "left"]','[ 10, "left"]'));
+    var fa=d[0],fb=d[1];
+
+    canvas.fa=fa;
+canvas.d=d[1];
+//alert(canvas.d)
+}
+else canvas.fa=-1;
+if(menuopc.value==="find Level (zenith)"){
+
+canvas.fz=prompt("Type zenith or angle",45)*1;
+
+} else canvas.fz=null
+msg=menuopc.value
+ stopmeasuring();
+
+}
+
+}
+
+
+var color="rgba(50,255,50,.5)"
+var ofx=0, ofy=0, r=canvas.height/2-5, cx=r+ofx, cy=r+ofy, o={} , di=0, ch=false,v=0;
+     ctx = canvas.getContext('2d');
+prepareCom(ctx);
+//epareLevV(ctxv);
+//epareLevH(ctxh);
+//epareLevB(ctxb)
+
+var a=Math.PI/4+.3
+ var i=-Math.PI/2;
+f=i+a;
+drawS(cx, cy, r,i,f)
+f=Math.PI*1.5;
+i=f-a;//Math.PI/3
+
+deviceOrientationHandler=null
+
+deviceOrientationHandler =function(evt) {
+
+v=evt.beta;
+var gamma=evt.gamma;
+v=(90-v).toFixed(2)
+gamma=gamma.toFixed(2)
+if(alphai === undefined) alphai = evt.alpha 
+ al=evt.alpha-alphai 
+ar=360-al
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+var i=-Math.PI/2,f=-Math.PI/2+Math.PI*(evt.alpha-alphai)/180
+
+var ii=i*180/Math.PI, ff=f*180/Math.PI 
+drawS(cx, cy, r,i,f)
+
+al=90-evt.alpha-Math.PI/2
+ar=360-al
+
+var a=evt.alpha-alphai
+
+
+if(a<0) a=360+a
+al=a
+ar=360-al;
+al=al.toFixed(2);
+ar=ar.toFixed(2);
+
+
+////////////////////
+ctx.fillStyle="red";
+ctx.font = "25px Arial"; // Example: 25px Arial font
+ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
+ctx.fillText(ar, 0, 20);
+
+////////////////
+ctx.fillStyle="green";
+ctx.font = "25px Arial"; // Example: 25px Arial font
+ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
+ctx.fillText(al, r+120, 20);
+ctx.fillStyle="blue";
+azimuth=al;
+zenith=v;
+ctx.fillText("Zenith: "+v, 0, r*2);
+
+
+ctx.font = "15px Arial";
+ctx.fillStyle="blue";
+
+var ay=(obmotion.y*90/9.80665).toFixed(2);//e*180/Math.PI
+
+var ax=(obmotion.x*90/9.80665).toFixed(2);
+var az=(obmotion.z*90/9.80665).toFixed(2);
+
+ctx.fillText("Level v(Y): "+ay, r*1.30, r*1.80);
+ctx.fillText("Level v(X): "+ax, r*1.30, r*1.90);
+ctx.fillText("Level h(Z): "+az, r*1.30, r*2.00);
+////////////////
+
+
+
+
+//////////
+//textarea.value="alpha evt: \n"+a+"\nal: \n"+al+"\nar: \n"+ar;
+
+
+//drawL(ctxv,ay*Math.PI/180);
+
+//drawL(ctxh,ax*Math.PI/180)
+
+//drawL(ctxb,az*Math.PI/180);
+
+if(canvas.fa!=-1){
+msg=menuopc.value+"  "+canvas.fa;
+var range=90;
+var dfa=0;
+
+    if(canvas.d==="left" )   dfa=al-canvas.fa;
+else dfa=ar-canvas.fa;
+
+if(dfa<-1){ msg=menuopc.value+" "+canvas.fa+" go right --->>>";
+//speak("go right");
+}
+if(dfa>1){ msg=menuopc.value+" "+canvas.fa+" <<<--- go left";
+//speak("go left");
+}
+    dfa=Math.abs(dfa);
+    if(dfa<range) {
+
+var ic=(range-dfa)/range-.6
+
+if(dfa<1)   { 
+//  canvas.style.background="rgba(0,255,0,.84)";
+msg=menuopc.value+" "+canvas.fa+" Close enough "
+aud.play()
+}
+else  {
+//canvas.style.background="rgba(255,0,0,"+ic+")";;
+aud.pause()
+
+}
+    }
+    else canvas.style.background="white";
+}
+
+if(canvas.fz!=null && menuopc.value==="find Level (zenith)"){
+msg= menuopc.value+" "+canvas.fz;
+  var da=v-canvas.fz;
+if(da<1) msg=menuopc.value+" "+canvas.fz+" DWN";
+if(da>1) msg=menuopc.value+" "+canvas.fz+" UP";
+da=Math.abs(da);
+if(da<2){ 
+msg="Close enough "+v;
+aud.play();
+}
+else aud.pause();
+
+}
+
+if(canvas.obs!=null && menuopc.value==="find obs"){
+var a=canvas.obs[0];
+var z=canvas.obs[1];
+var dir=canvas.obs[2];
+var da=al-a;
+var ma="",mz="";
+if(dir==="right") da=ar-a;
+  var dz=v-z;
+if(da<0) ma=" left ";
+else ma=" right ";
+if(dz>0) mz=" Up ";
+else mz=" Dwn ";
+
+dz=Math.abs(dz);
+da=Math.abs(da);
+msg=menuopc.value+" "+canvas.obs+" ...Go:"+ma+mz;
+
+if(dz<1 && da<1){ 
+aud.play();
+msg=menuopc.value+"  Close enough";
+
+}
+else aud.pause();
+
+}
+
+
+//if(msg.indexOf("undefined")==-1) msg=menuopc.value;
+ctx.fillText(msg, r*.35, 15);
+}
+
+window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
+window.removeEventListener("devicemotion", handleMotionEvent, true);
+
+function inicmeasuring(){
+if (window.DeviceOrientationEvent) {
+  window.addEventListener('deviceorientation', deviceOrientationHandler, true)
+  inicacc()
+
+}
+}
+
+function stopmeasuring(){
+window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
+stopacc()
+
+}
+
+function inicacc(){
+
+    window.addEventListener("devicemotion", handleMotionEvent, true);
+
+}
+
+function stopacc(){
+    window.removeEventListener("devicemotion", handleMotionEvent, true);
+}
+function handleMotionEvent(e){
+       obmotion.x = e.accelerationIncludingGravity.x;
+        obmotion.y = e.accelerationIncludingGravity.y;
+        obmotion.z = e.accelerationIncludingGravity.z;
+
+}
+
+
+function drawS(cx, cy, r,i,f){
+var o=ctx.canvas.name;
+    cx=ctx.canvas.name.cx;
+    cy=ctx.canvas.name.cy;
+    r=ctx.canvas.name.r;
+var gap=ctx.canvas.name.gap;
+var w=3*r-cx, h=3*r-cy
+
+ctx.globalAlpha = 0.25;
+ctx.drawImage(img,cx-r,cy-r,r*2,r*2);
+ctx.globalAlpha = 1;
+ctx.save();
+
+ctx.translate(cx,cy);
+
+ctx.rotate(f+Math.PI/2);
+
+ctx.drawImage(img,-r,-r,r*2,r*2);
+
+ctx.restore();
+
+    ctx.beginPath();
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, r,i,f);
+
+ctx.closePath();
+    ctx.fillStyle = 'rgba(50,255,50,.2)';
+    ctx.fill();
+
+
+   ctx.beginPath();
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, r,f,i);
+
+ctx.closePath();
+    ctx.fillStyle = 'rgba(255,100,50,.2)';
+    ctx.fill();
+
+ctx.beginPath();
+var x=Math.cos (f)*r+cx
+var y=Math.sin (f)*r+cy
+
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(255,2,0,.5)';
+    ctx.fill();
+
+
+ctx.beginPath();
+var x=Math.cos (i)*r+cx
+var y=Math.sin (i)*r+cy
+
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(0,255,255,.5)';
+    ctx.fill();
+}
+
+function drawL(ctx, e){
+    var cx=ctx.canvas.name.cx;
+    var cy=ctx.canvas.name.cy;
+    var r=ctx.canvas.name.r;
+  var w=3*r-cx, h=3*r-cy;
+var canvas=ctx.canvas;
+//e=e+Math.PI/2
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+var i=90;
+var f=e;
+    ctx.beginPath();
+ctx.moveTo(cx,cy);
+ctx.arc(cx, cy, r,0,Math.PI*2);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(cx,cy);
+
+var x=Math.cos (f)*r+cx
+var y=Math.sin (f)*r+cy
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(255,2,0,.5)';
+    ctx.fill();
+
+ctx.beginPath(); // Start a new path
+ctx.moveTo(cx, cy); // Move the pen to (30, 50)
+ctx.lineTo(x, y); // Draw a line to (150, 100)
+ctx.stroke(); // Render the path
+
+
+
+ctx.beginPath();
+//var x=Math.cos (i)*r+cx
+//var y=Math.sin (i)*r+cy
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, 4,0,Math.PI*2);//1 * Math.PI
+    ctx.fillStyle = 'rgba(0,255,255,.55)';
+  ctx.fill();
+
+ctx.font = "25px Arial";
+ctx.fillStyle="blue";
+var a=e*180/Math.PI 
+ctx.fillText("Angle: "+a, r*1.5,r*1.80); 
+
+
+}
+
+
+
+ getMethods = function(ob, varname){
+    var kys = [];
+var json = JSON.stringify(ob, function(key, value) {
+ if (typeof value === 'function') {
+     var v = value.toString();
+ 
+ // var pa = varname+"." + key + v.substring(v.indexOf("("), v.indexOf(")")+1);// + 1"\n"
+  var s = v.substring(v.indexOf("("));
+ //alert(s)
+  var c = 0, ii=1;
+  for (var i = 0; i < s.length; i++) {
+      if (s[i] === "(") c++;
+      if (s[i] === ")") c--;
+     
+      if (c == 0 && s[i]===")") {ii=i;i=s.length;}
+ }  
+ //alert(ii)
+ var pa = varname+"." + key + s.substring(0, ii+1);// + 1"\n"
+ 
+     kys.push(pa + "\n\n")
+     return value;
+ }
+ return value;
+}, 2);
+
+return kys;
+}
+
+function getCoords(a,v,d,p0){
+v=90-v;
+v=v*Math.PI/180;a=(90-a)*Math.PI/180;
+if (p0===undefined) p0={x:0,y:0,z:0}
+var c={}
+var dx=Math.cos(v)*d;
+var z= Math.sin(v)*d+p0.z;
+var x=Math.cos(a)*dx+p0.x;
+var y=Math.sin(a)*dx+p0.y;
+c.x=x;
+c.y=y
+c.z=z;
+c.azimuth=a;
+c.zenith=v;
+c.distance=d;
+c.basePoint=p0;
+
+return c;
+}
+
+finishp = function(obs){
+alert (this.name)
+var o=JSON.parse(obs)
+var d=prompt ("Distance ",1)*1
+o.coordenates=getCoords (o.a,o.v,d,o.p0)
+this.name=JSON.stringify(o)
+
+alert (JSON.stringify (o))
+
+var dot=crDot(params={d:.5,texture:"",color:0xaaaaaa});
+esena.add(dot);
+dot.position.set(o.coordenates.x,o.coordenates.y,o.coordenates.z)
+//can3d
+
+}
+
+function prepareCom(ctx){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
+img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+
+}
+function prepareLevV(ctx){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+drawL(ctx,100,100,100,1)
+
+};
+function prepareLevH(ctx){
+
+ctx.clearRect(0,0,ctx.width,ctx.height)
+ ctx.width=500;
+ctx.height=500;
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+drawL(ctx,100,100,100,4)
+
+
+};
+
+function prepareLevB(ctx){
+
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+drawL(ctx,100,100,100,2)
+    
+}
+
+
+selmopc = function (v){
+
+if(v==="show Points dlg"){
+obgs=localStorage.getItem("obglocal");
+
+dpsts.style.display="block";
+setUpPoints();
+alert(obgs);
+
+}
+
+ msg=v;
+onmen.click();
+
+}
+sin = function(a){
+return Math.sin(a*Math.PI/180)
+}
+
+ asin = function(v){
+return Math.asin(v)*180/Math.PI;
+
+}
+
+ cos = function(a){
+return Math.cos(a*Math.PI/180)
+}
+
+ acos = function(v){
+return Math.acos(v)*180/Math.PI
+}
+
+
+ tan = function(a){
+return Math.tan(a*Math.PI/180)
+}
+
+atan = function(v){
+return Math.atan(v)*180/Math.PI
+}
+
+
+sqrt = function(v){
+return Math.sqrt(v);
+}
+
+pause=function (){aud.pause()
+//aud.pause();aud.currentTime = 0;
+}
+
+var s=`
+
+<audio id="aud" click="this.play()"  onload="setTimeout(function(){pause()},10);" src="https://www.pacdv.com/sounds/interface_sound_effects/beep-11.wav" type="audio/mp3" autoplay></audio>`
+
+container.innerHTML=s+`
+Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">Pixabay</a>
+`	
+
+
+
+
+
+
+
+}
+
+
+function speak(txt){
+////////////////////////
+ // Create a SpeechSynthesisUtterance
+  const utterance = new SpeechSynthesisUtterance(txt);
+
+  // Select a voice
+  const voices = speechSynthesis.getVoices();
+  utterance.voice = voices[0]; // Choose a specific voice
+
+  // Speak the text
+  speechSynthesis.speak(utterance);
+
+}
+selPoint = function(p){
+
+
+
+alert(p)
+
+}
+
+function setUpPoints(){
+//ps=JSON.parse(localStorage.getItem("obglocal",{})};
+pfrom.innerHTML="<option>From point</option.";
+    pto.innerHTML="<option>To point</option>"
+var ps=obg.points;
+var s="";//"<option>select a point</option";
+
+for(var i=0;i<ps.length;i++){
+if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
+
+}
+//spoints.innerHTML="<option>Select a point</option"+s;
+  
+    pfrom.innerHTML="<option>Select a point</option"+s;
+    pto.innerHTML="<option>Select a point</option"+s;
+
+//alert(ps);
+
+}
+function selto(v){
+for(var i=0;i<obg.length;i++){
+    if(obg[i].id===v){ pfrom.punto=obj[i];calccoord()}
+}
+
+}
+function selfrom(v){
+
+for(var i=0;i<obg.length;i++){
+    if(obg[i].id===v){ pto.punto=obj[i];calccoord()}
+}
+}
+function calccoord(){
+    var a,b;
+    if(pfrom.punto!=undefined) a=pfrom.punto;
+    else {alert("choose 'from point'");return}
+    if(pto.punto!=undefined) b=pto.punto;
+    else {alert("Choose 'to point'");return}
+
+    var obs=Mat.getObsG(a,b);
+    
+alert(JSON.stringify(obs));
+respts.value=JSON.stringify(obs);
+
+
+}
+
+</script>
+</HTML>
