@@ -176,7 +176,7 @@ button{
     
 </div>
 
-<div id="dpsts" style="width:60%;height:30%;position:absolute;top:20%;left:20%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);">
+<div id="dpsts" style="width:60%;height:30%;position:absolute;top:20%;left:20%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);text-align:center;">
 <select id="pfrom" oninput="selfrom(this.value)"></select>
 <select id="pto"oninput="selto(this.value)"></select>
 <textarea id="respts" style="width:80%;height:50%;"></textarea>
@@ -986,7 +986,6 @@ function insertTx(v){
 
 
 
-
 function inicapp(){
 
 
@@ -1085,7 +1084,7 @@ if(v==="show Points dlg"){
 obgs=localStorage.getItem("objlocal")
 dpsts.style.display='block'
 
-alert(obgs)
+//alert(obgs)
 }
 
 
@@ -1103,10 +1102,18 @@ alert(obgs)
 
 
 var k=false,opt="",obg={} ;obg.points=arp;obg.obs=[];
-obg=JSON.parse(localStorage.getItem("objlocal","{}"))
+var sg=localStorage.getItem("objlocal",);
+if(sg===null){
+obg={"points":[],"obs":[]};
+localStorage.setItem("objlocal",JSON.stringify(obg));
+}
+else {
+obg=JSON.parse(sg);
+// setUpPoints()
+}
 
-//alert(obg);
-//if(obg!=null) setUpPoints()
+//obg=JSON.parse(sg);
+
 var img=document.createElement("img");
 
 var opt=""
@@ -1122,11 +1129,13 @@ else{
 k=false;
 if(menuopc.value=="calculate coordenates"){
     var d=prompt("Type distance",1)*1;
-var cor=getCoords(ar,v,d,{x:0,y:0,z:0})
+var cor=getCoords(ar,v,d,{x:0,y:0,z:0});
 arp.push(cor);
-var sc= JSON.stringify (cor);//obg
-k=true;
+var sc= JSON.stringify (cor);
+
+k=true;//alert(cor);
 if(confirm(sc+"\n\nSave point?")){
+//alert(JSON.stringify(obg))
 cor.id=prompt("Type id","a"+obg.points.length);
 obg.points.push(cor);
  localStorage.setItem("obglocal",JSON.stringify(obg));;//sc
@@ -1582,11 +1591,15 @@ drawL(ctx,100,100,100,2)
 selmopc = function (v){
 
 if(v==="show Points dlg"){
-obgs=localStorage.getItem("obglocal");
+var ss=localStorage.getItem("obglocal");
+if(ss!=null){
+obg=JSON.parse(ss);
 
+ setUpPoints();
+}
 dpsts.style.display="block";
-setUpPoints();
-alert(obgs);
+//setUpPoints();
+//alert(obgs);
 
 }
 
@@ -1655,45 +1668,51 @@ function speak(txt){
 }
 selPoint = function(p){
 
-
+ 
 
 alert(p)
 
 }
 
-function setUpPoints(){
-//ps=JSON.parse(localStorage.getItem("obglocal",{})};
+function setUpPoints(){ 
+alert(JSON.stringify(obg));
+
 pfrom.innerHTML="<option>From point</option.";
     pto.innerHTML="<option>To point</option>"
 var ps=obg.points;
-var s="";//"<option>select a point</option";
+var s="";
 
 for(var i=0;i<ps.length;i++){
 if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
 
 }
-//spoints.innerHTML="<option>Select a point</option"+s;
   
     pfrom.innerHTML="<option>Select a point</option"+s;
     pto.innerHTML="<option>Select a point</option"+s;
 
-//alert(ps);
-
-}
-function selto(v){
-for(var i=0;i<obg.length;i++){
-    if(obg[i].id===v){ pfrom.punto=obj[i];calccoord()}
 }
 
+ selto = function(v){
+//alert(v);
+for(var i=0;i<obg.points.length;i++){
+var p=obg.points[i]
+    if(p.id===v){ pfrom.punto=p;calccoord()}
 }
-function selfrom(v){
 
-for(var i=0;i<obg.length;i++){
-    if(obg[i].id===v){ pto.punto=obj[i];calccoord()}
+}
+ selfrom = function (v){
+//alert(v)
+for(var i=0;i<obg.points.length;i++){
+var p=obg.points[i]
+
+    if(p.id===v){
+ pto.punto=p;
+calccoord()}
 }
 }
-function calccoord(){
+calccoord = function(){
     var a,b;
+//alert(pfrom.punto)
     if(pfrom.punto!=undefined) a=pfrom.punto;
     else {alert("choose 'from point'");return}
     if(pto.punto!=undefined) b=pto.punto;
