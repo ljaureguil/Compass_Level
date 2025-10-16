@@ -176,14 +176,15 @@ button{
     
 </div>
 
-<div id="dpsts" style="width:80%;height:45%;position:absolute;top:20%;left:10%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);text-align:center;">
-<select id="pfrom" oninput="selfrom(this.value)"></select>
-<select id="pto"oninput="selto(this.value)"></select>
+<div id="dpsts" style="width:60%;height:30%;position:absolute;top:20%;left:20%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);text-align:center;">
+From<select id="pfrom" oninput="selfrom(this.value)"></select>
+To<select id="pto"oninput="selto(this.value)"></select>
 <textarea id="respts" style="width:80%;height:50%;"></textarea>
 
 
 
     <br>
+    <button onclick="removeAllpts()">Remove all points</button>
     <button onclick="dpsts.style.display='none'">Close</button>
 
 
@@ -1138,7 +1139,7 @@ if(confirm(sc+"\n\nSave point?")){
 //alert(JSON.stringify(obg))
 cor.id=prompt("Type id","a"+obg.points.length);
 obg.points.push(cor);
- localStorage.setItem("obglocal",JSON.stringify(obg));;//sc
+ localStorage.setItem("objlocal",JSON.stringify(obg));;//sc
 
 }
 return;
@@ -1591,7 +1592,7 @@ drawL(ctx,100,100,100,2)
 selmopc = function (v){
 
 if(v==="show Points dlg"){
-var ss=localStorage.getItem("obglocal");
+var ss=localStorage.getItem("objlocal");
 if(ss!=null){
 obg=JSON.parse(ss);
 
@@ -1729,7 +1730,27 @@ respts.value=JSON.stringify(obs);
 
 
 
+removeAllpts = function(){
+if(confirm("are you sure you want to delete all points?")){
+alert("all points will be deleted");
+so=obg.points=[];
+so=JSON.stringify(obg);
+
+localStorage.setItem("objlocal",so);
+
 }
+}
+
+
+
+
+
+
+}
+
+
+
+
 
 
 </script>
