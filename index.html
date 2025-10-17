@@ -176,15 +176,13 @@ button{
     
 </div>
 
-<div id="dpsts" style="width:60%;height:30%;position:absolute;top:20%;left:20%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);text-align:center;">
-From<select id="pfrom" oninput="selfrom(this.value)"></select>
-To<select id="pto"oninput="selto(this.value)"></select>
+<div id="dpsts" style="width:80%;height:50%;position:absolute;top:20%;left:10%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);text-align:center;">
+<select id="pfrom" oninput="selfrom(this.value)"><option>From</option></select>
+<select id="pto"oninput="selto(this.value)"><option>To</option></select>
 <textarea id="respts" style="width:80%;height:50%;"></textarea>
 
-
-
     <br>
-    <button onclick="removeAllpts()">Remove all points</button>
+    <button onclick="delPts()">Delete points</button>
     <button onclick="dpsts.style.display='none'">Close</button>
 
 
@@ -986,7 +984,6 @@ function insertTx(v){
 //inicapp();
 
 
-
 function inicapp(){
 
 
@@ -1030,14 +1027,11 @@ var msg="", azimuth=0,zenith=0;
 
 
 iniccanv(canvas)
-//iccanv(canvash)
-//iccanv(canvasb)
 
-//iniccanv(canvasv)
 function iniccanv(canvas){
 
     m=canvas.getClientRects()[0];
-//    alert(JSON.stringify(canvas.getClientRects()))
+
 ra=m.height/m.width;
 var mr=0,gap=5;
 if(m.height>m.width)mr=m.width/2-gap;
@@ -1139,7 +1133,8 @@ if(confirm(sc+"\n\nSave point?")){
 //alert(JSON.stringify(obg))
 cor.id=prompt("Type id","a"+obg.points.length);
 obg.points.push(cor);
- localStorage.setItem("objlocal",JSON.stringify(obg));;//sc
+ localStorage.setItem("obglocal",JSON.stringify(obg));;//sc
+setUpPoints();
 
 }
 return;
@@ -1592,15 +1587,13 @@ drawL(ctx,100,100,100,2)
 selmopc = function (v){
 
 if(v==="show Points dlg"){
-var ss=localStorage.getItem("objlocal");
+var ss=localStorage.getItem("obglocal");
 if(ss!=null){
 obg=JSON.parse(ss);
 
  setUpPoints();
 }
 dpsts.style.display="block";
-//setUpPoints();
-//alert(obgs);
 
 }
 
@@ -1676,10 +1669,9 @@ alert(p)
 }
 
 function setUpPoints(){ 
-alert(JSON.stringify(obg));
 
-pfrom.innerHTML="<option>From point</option.";
-    pto.innerHTML="<option>To point</option>"
+pfrom.innerHTML="<option>From</option.";
+    pto.innerHTML="<option>To</option>"
 var ps=obg.points;
 var s="";
 
@@ -1688,8 +1680,8 @@ if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
 
 }
   
-    pfrom.innerHTML="<option>Select a point</option"+s;
-    pto.innerHTML="<option>Select a point</option"+s;
+    pfrom.innerHTML="<option>From</option>"+s;
+    pto.innerHTML="<option>To</option>"+s;
 
 }
 
@@ -1722,21 +1714,21 @@ calccoord = function(){
     var obs=Mat.getObsG(a,b);
     
 alert(JSON.stringify(obs));
-respts.value=JSON.stringify(obs);
+respts.value=JSON.stringify(obs).replace(/"/g," ").replace(/,/g,"\n");
 
 
 }
 
 
 
-
-removeAllpts = function(){
+delPts = function(){ 
 if(confirm("are you sure you want to delete all points?")){
-alert("all points will be deleted");
+alert("all points have be deleted");
 so=obg.points=[];
 so=JSON.stringify(obg);
 
 localStorage.setItem("objlocal",so);
+setUpPoints();
 
 }
 }
@@ -1745,11 +1737,7 @@ localStorage.setItem("objlocal",so);
 
 
 
-
 }
-
-
-
 
 
 
