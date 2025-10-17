@@ -177,14 +177,6 @@ button{
 </div>
 
 <div id="dpsts" style="width:80%;height:50%;position:absolute;top:20%;left:10%;border-style:solid;display:none;background-color: rgba(255,255,255,.5);text-align:center;">
-<select id="pfrom" oninput="selfrom(this.value)"><option>From</option></select>
-<select id="pto"oninput="selto(this.value)"><option>To</option></select>
-<textarea id="respts" style="width:80%;height:70%;"></textarea>
-
-    <br>
-    <button onclick="delPts()">Delete points</button>
-    <button onclick="dpsts.style.display='none'">Close</button>
-
 
 </div>
 
@@ -1000,7 +992,7 @@ menuopc.innerHTML=`
 <option>calc dist from 2 points</option>
 <option>save obs and keep same reference</option>
 <option>show Points dlg</option>
-
+<option>show Obs</option>
 <option></option>
 `
 /*
@@ -1587,16 +1579,27 @@ drawL(ctx,100,100,100,2)
 selmopc = function (v){
 
 if(v==="show Points dlg"){
+    setPP();
 var ss=localStorage.getItem("obglocal");
 if(ss!=null){
 obg=JSON.parse(ss);
 
  setUpPoints();
 }
-dpsts.style.display="block";
 
+dpsts.style.display="block";
 }
 
+if(v==="show Obs"){
+    setupOO()
+var ss=localStorage.getItem("obglocal");
+if(ss!=null){
+obg=JSON.parse(ss);
+ setUpObs();
+}
+
+dpsts.style.display="block";
+}
  msg=v;
 onmen.click();
 
@@ -1668,7 +1671,7 @@ alert(p)
 
 }
 
-function setUpPoints(){ 
+ setUpPoints = function(){ 
 
 pfrom.innerHTML="<option>From</option.";
     pto.innerHTML="<option>To</option>"
@@ -1691,8 +1694,23 @@ for(var i=0;i<obg.points.length;i++){
 var p=obg.points[i]
     if(p.id===v){ pfrom.punto=p;calccoord()}
 }
+ }
+ setUpObs = function(){ 
+
+pfrom.innerHTML="<option>From</option.";
+  
+var ps=obg.obs;
+var s="";
+
+for(var i=0;i<ps.length;i++){
+if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
 
 }
+  
+    pfrom.innerHTML="<option>From</option>"+s;
+}
+
+
  selfrom = function (v){
 //alert(v)
 for(var i=0;i<obg.points.length;i++){
@@ -1735,8 +1753,34 @@ setUpPoints();
 }
 
 
+setPP = function(){
+dpsts.innerHTML=`
+<select id="pfrom" oninput="selfrom(this.value)"><option>From</option></select>
+<select id="pto"oninput="selto(this.value)"><option>To</option></select>
+<textarea id="respts" style="width:80%;height:70%;"></textarea>
+
+    <br>
+    <button onclick="delPts()">Delete points</button>
+    <button onclick="dpsts.style.display='none'">Close</button>
 
 
+`
+
+}
+
+setupOO = function(){
+dpsts.innerHTML=`
+<select id="pfrom" oninput="selfrom(this.value)"><option>Obs</option></select>
+
+<textarea id="respts" style="width:80%;height:70%;"></textarea>
+
+    <br>
+   
+    <button onclick="dpsts.style.display='none'">Close</button>
+
+
+`
+}
 
 }
 
