@@ -1,21 +1,830 @@
 
 
+inicapp();
 
 
-canvash.style.display="none";
-canvasb.style.display="none";
-canvasv.style.display="none";
 
 
-var ss=`
-<div id="dpsts" style="width:60%;height:20%;position:relative;top:30%;left:20%;border-style"solid">
-<select id="pfrom" oninput="selfrom(this.value)"></select>
-<select id="pto"oninput="selfrom(this.value)"></select>
-<textarea id="respts" style="width:80%;height:50%;"></textarea>
 
-</div>
+
+
+function inicapp(){
+
+
+
+
+
+menuopc.innerHTML=`
+<option>select an option</option>
+<option>create new project</option>
+<option>calculate coordenates</option>
+<option>capture obs</option>
+<option>Save obs serie</option>
+<option>find Angle</option>
+<option>find Level (zenith)</option>
+<option>find obs</option>
+<option>calc dist from 2 points</option>
+<option>save obs and keep same reference</option>
+<option>show Points dlg</option>
+<option>show Obs</option>
+<option></option>
+`;
+
+
+var msg="", azimuth=0,zenith=0;
+
+
+canvas.capobj=null;
+iniccanv(canvas)
+
+function iniccanv(canvas){
+
+    m=canvas.getClientRects()[0];
+
+ra=m.height/m.width;
+var mr=0,gap=5;
+if(m.height>m.width)mr=m.width/2-gap;
+else mr=m.height/2-gap;
+canvas.name={r:mr,cx:m.width/2,cy:m.height/2, gap:gap}
+
+canvas.width = m.width;
+canvas.height = m.height;
+}
+
+
+pba={x:0,y:0,z:0},arp=[];
+container.actualpoint={};
+container.innerHTML=`
+<select id="ddsel" oninput="eval(myfunc.innerHTML);selopcd(this.value)">
+<option>Select an option</option>
+<option>draw line between points in order<option>
+<option>show all point object<option>
+<option><option>
+<option>Save points locally<option>
+<option>Save point to web<option>
+
+</select>
+<div id="dpts" style="width:30%;border-style:solid;"></div >
+<code id="myfunc">
+selopcd=function(v){
+alet(v)
+if(v==="draw line between points in order"){
+
+}
+
+if(v==="draw line between points in order"){
+
+}
+
+if(v==="Save points locally"){
+   
+}
+
+if(v==="Save point to web"){
+
+}
+
+if(v==="show Points dlg"){
+obgs=localStorage.getItem("obglocal")
+dpsts.style.display='block'
+
+//alert(obgs)
+}
+
+
+}
+
+
+</code>
+
+
+
 `
 
-//alert(s)
-//container.style.position="absolute";
-container.innerHTML+=ss;
+
+
+
+
+var k=false,opt="",obg={} ;obg.points=arp;obg.obs=[];
+var sg=localStorage.getItem("obglocal",);
+if(sg===null){
+obg={"points":[],"obs":[]};
+localStorage.setItem("obglocal",JSON.stringify(obg));
+}
+else {
+obg=JSON.parse(sg);
+// setUpPoints()
+}
+
+//obg=JSON.parse(sg);
+
+var img=document.createElement("img");
+
+var opt=""
+canvas.onclick=function(){
+
+if(!k){
+if(opt!="3") alphai =undefined;
+k=true;
+inicmeasuring();
+}
+else{
+
+k=false;
+
+
+
+if(menuopc.value=="calculate coordenates"){
+    var d=prompt("Type distance",1)*1;
+var cor=getCoords(ar,v,d,{x:0,y:0,z:0});
+arp.push(cor);
+var sc= JSON.stringify (cor);
+
+k=true;
+if(confirm(sc+"\n\nSave point?")){
+
+cor.id=prompt("Type id","a"+obg.points.length);
+obg.points.push(cor);
+ localStorage.setItem("obglocal",JSON.stringify(obg));;//sc
+setUpPoints();
+
+}
+return;
+}
+if(menuopc.value==="find obs"){
+    var d=JSON.parse(prompt('Tap compass to Zero it after you type info.\n\nType azimuth, zenith, direction ex.[ 35,85, "left"]','[ 35, 55, "left"]'));
+    canvas.obs=d;
+
+}
+else canvas.obs=null;
+
+if(menuopc.value==="find Angle"){
+
+    var d=JSON.parse(prompt('Tap compass to Zero it after you type info.\n\nType azimuth and left or right direction ex.[ 10, "left"]','[ 10, "left"]'));
+    var fa=d[0],fb=d[1];
+
+    canvas.fa=fa;
+canvas.d=d[1];
+
+}
+else canvas.fa=-1;
+if(menuopc.value==="find Level (zenith)"){
+
+canvas.fz=prompt("Type zenith or angle",45)*1;
+
+} else canvas.fz=null
+
+
+
+/////////
+if(menuopc.value==="capture obs"){
+ //&& canvas.capobj!=null
+k=true;
+ canvas.capobj.obs.push({"id":canvas.capobj.id+"_"+canvas.capobj.obs.length,"azimut":azimuth,"zenith":zenith});
+
+alert("ooooooo  "+JSON.stringify(canvas.capobj));
+
+}
+else stopmeasuring();
+
+
+msg=menuopc.value
+
+
+}
+
+}
+
+
+var color="rgba(50,255,50,.5)"
+var ofx=0, ofy=0, r=canvas.height/2-5, cx=r+ofx, cy=r+ofy, o={} , di=0, ch=false,v=0;
+     ctx = canvas.getContext('2d');
+prepareCom(ctx);
+
+
+var a=Math.PI/4+.3
+ var i=-Math.PI/2;
+f=i+a;
+drawS(cx, cy, r,i,f)
+f=Math.PI*1.5;
+i=f-a;//Math.PI/3
+
+deviceOrientationHandler=null
+
+deviceOrientationHandler =function(evt) {
+
+v=evt.beta;
+var gamma=evt.gamma;
+v=(90-v).toFixed(2)
+gamma=gamma.toFixed(2)
+if(alphai === undefined) alphai = evt.alpha 
+ al=evt.alpha-alphai 
+ar=360-al
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+var i=-Math.PI/2,f=-Math.PI/2+Math.PI*(evt.alpha-alphai)/180
+
+var ii=i*180/Math.PI, ff=f*180/Math.PI 
+drawS(cx, cy, r,i,f)
+
+al=90-evt.alpha-Math.PI/2
+ar=360-al
+
+var a=evt.alpha-alphai
+
+
+if(a<0) a=360+a
+al=a
+ar=360-al;
+al=al.toFixed(2);
+ar=ar.toFixed(2);
+
+
+////////////////////
+ctx.fillStyle="red";
+ctx.font = "25px Arial"; // Example: 25px Arial font
+ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
+ctx.fillText(ar, 0, 20);
+
+////////////////
+ctx.fillStyle="green";
+ctx.font = "25px Arial"; // Example: 25px Arial font
+ctx.font = "bold 18px sans-serif"; // Example: Bold, 18px sans-seri
+ctx.fillText(al, r+120, 20);
+ctx.fillStyle="blue";
+azimuth=al;
+zenith=v;
+ctx.fillText("Zenith: "+v, 0, r*2);
+
+
+ctx.font = "15px Arial";
+ctx.fillStyle="blue";
+
+var ay=(obmotion.y*90/9.80665).toFixed(2);//e*180/Math.PI
+
+var ax=(obmotion.x*90/9.80665).toFixed(2);
+var az=(obmotion.z*90/9.80665).toFixed(2);
+
+ctx.fillText("Level v(Y): "+ay, r*1.30, r*1.80);
+ctx.fillText("Level v(X): "+ax, r*1.30, r*1.90);
+ctx.fillText("Level h(Z): "+az, r*1.30, r*2.00);
+////////////////
+
+if(canvas.fa!=-1){
+msg=menuopc.value+"  "+canvas.fa;
+var range=90;
+var dfa=0;
+
+    if(canvas.d==="left" )   dfa=al-canvas.fa;
+else dfa=ar-canvas.fa;
+
+if(dfa<-1){ msg=menuopc.value+" "+canvas.fa+" go right --->>>";
+//speak("go right");
+}
+if(dfa>1){ msg=menuopc.value+" "+canvas.fa+" <<<--- go left";
+//speak("go left");
+}
+    dfa=Math.abs(dfa);
+    if(dfa<range) {
+
+var ic=(range-dfa)/range-.6
+
+if(dfa<1)   { 
+//  canvas.style.background="rgba(0,255,0,.84)";
+msg=menuopc.value+" "+canvas.fa+" Close enough "
+aud.play()
+}
+else  {
+//canvas.style.background="rgba(255,0,0,"+ic+")";;
+aud.pause()
+
+}
+    }
+    else canvas.style.background="white";
+}
+
+if(canvas.fz!=null && menuopc.value==="find Level (zenith)"){
+msg= menuopc.value+" "+canvas.fz;
+  var da=v-canvas.fz;
+if(da<1) msg=menuopc.value+" "+canvas.fz+" DWN";
+if(da>1) msg=menuopc.value+" "+canvas.fz+" UP";
+da=Math.abs(da);
+if(da<2){ 
+msg="Close enough "+v;
+aud.play();
+}
+else aud.pause();
+
+}
+
+if(canvas.obs!=null && menuopc.value==="find obs"){
+var a=canvas.obs[0];
+var z=canvas.obs[1];
+var dir=canvas.obs[2];
+var da=al-a;
+var ma="",mz="";
+if(dir==="right") da=ar-a;
+  var dz=v-z;
+if(da<0) ma=" left ";
+else ma=" right ";
+if(dz>0) mz=" Up ";
+else mz=" Dwn ";
+
+dz=Math.abs(dz);
+da=Math.abs(da);
+msg=menuopc.value+" "+canvas.obs+" ...Go:"+ma+mz;
+
+if(dz<1 && da<1){ 
+aud.play();
+msg=menuopc.value+"  Close enough";
+
+}
+else aud.pause();
+
+}
+
+
+//if(msg.indexOf("undefined")==-1) msg=menuopc.value;
+ctx.fillText(msg, r*.35, 15);
+}
+
+window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
+window.removeEventListener("devicemotion", handleMotionEvent, true);
+
+function inicmeasuring(){
+if (window.DeviceOrientationEvent) {
+  window.addEventListener('deviceorientation', deviceOrientationHandler, true)
+  inicacc()
+
+}
+}
+
+function stopmeasuring(){
+window.removeEventListener('deviceorientation', deviceOrientationHandler, true);
+stopacc()
+
+}
+
+function inicacc(){
+
+    window.addEventListener("devicemotion", handleMotionEvent, true);
+
+}
+
+function stopacc(){
+    window.removeEventListener("devicemotion", handleMotionEvent, true);
+}
+function handleMotionEvent(e){
+       obmotion.x = e.accelerationIncludingGravity.x;
+        obmotion.y = e.accelerationIncludingGravity.y;
+        obmotion.z = e.accelerationIncludingGravity.z;
+
+}
+
+
+function drawS(cx, cy, r,i,f){
+var o=ctx.canvas.name;
+    cx=ctx.canvas.name.cx;
+    cy=ctx.canvas.name.cy;
+    r=ctx.canvas.name.r;
+var gap=ctx.canvas.name.gap;
+var w=3*r-cx, h=3*r-cy
+
+ctx.globalAlpha = 0.25;
+ctx.drawImage(img,cx-r,cy-r,r*2,r*2);
+ctx.globalAlpha = 1;
+ctx.save();
+
+ctx.translate(cx,cy);
+
+ctx.rotate(f+Math.PI/2);
+
+ctx.drawImage(img,-r,-r,r*2,r*2);
+
+ctx.restore();
+
+    ctx.beginPath();
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, r,i,f);
+
+ctx.closePath();
+    ctx.fillStyle = 'rgba(50,255,50,.2)';
+    ctx.fill();
+
+
+   ctx.beginPath();
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, r,f,i);
+
+ctx.closePath();
+    ctx.fillStyle = 'rgba(255,100,50,.2)';
+    ctx.fill();
+
+ctx.beginPath();
+var x=Math.cos (f)*r+cx
+var y=Math.sin (f)*r+cy
+
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(255,2,0,.5)';
+    ctx.fill();
+
+
+ctx.beginPath();
+var x=Math.cos (i)*r+cx
+var y=Math.sin (i)*r+cy
+
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(0,255,255,.5)';
+    ctx.fill();
+}
+
+function drawL(ctx, e){
+    var cx=ctx.canvas.name.cx;
+    var cy=ctx.canvas.name.cy;
+    var r=ctx.canvas.name.r;
+  var w=3*r-cx, h=3*r-cy;
+var canvas=ctx.canvas;
+//e=e+Math.PI/2
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+var i=90;
+var f=e;
+    ctx.beginPath();
+ctx.moveTo(cx,cy);
+ctx.arc(cx, cy, r,0,Math.PI*2);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(cx,cy);
+
+var x=Math.cos (f)*r+cx
+var y=Math.sin (f)*r+cy
+    ctx.arc(x, y, 4,Math.PI*2,0);//1 * Math.PI
+
+    ctx.fillStyle = 'rgba(255,2,0,.5)';
+    ctx.fill();
+
+ctx.beginPath(); // Start a new path
+ctx.moveTo(cx, cy); // Move the pen to (30, 50)
+ctx.lineTo(x, y); // Draw a line to (150, 100)
+ctx.stroke(); // Render the path
+
+
+
+ctx.beginPath();
+//var x=Math.cos (i)*r+cx
+//var y=Math.sin (i)*r+cy
+ctx.moveTo(cx,cy);
+    ctx.arc(cx, cy, 4,0,Math.PI*2);//1 * Math.PI
+    ctx.fillStyle = 'rgba(0,255,255,.55)';
+  ctx.fill();
+
+ctx.font = "25px Arial";
+ctx.fillStyle="blue";
+var a=e*180/Math.PI 
+ctx.fillText("Angle: "+a, r*1.5,r*1.80); 
+
+
+}
+
+
+
+ getMethods = function(ob, varname){
+    var kys = [];
+var json = JSON.stringify(ob, function(key, value) {
+ if (typeof value === 'function') {
+     var v = value.toString();
+ 
+ // var pa = varname+"." + key + v.substring(v.indexOf("("), v.indexOf(")")+1);// + 1"\n"
+  var s = v.substring(v.indexOf("("));
+ //alert(s)
+  var c = 0, ii=1;
+  for (var i = 0; i < s.length; i++) {
+      if (s[i] === "(") c++;
+      if (s[i] === ")") c--;
+     
+      if (c == 0 && s[i]===")") {ii=i;i=s.length;}
+ }  
+ //alert(ii)
+ var pa = varname+"." + key + s.substring(0, ii+1);// + 1"\n"
+ 
+     kys.push(pa + "\n\n")
+     return value;
+ }
+ return value;
+}, 2);
+
+return kys;
+}
+
+function getCoords(a,v,d,p0){
+v=90-v;
+v=v*Math.PI/180;a=(90-a)*Math.PI/180;
+if (p0===undefined) p0={x:0,y:0,z:0}
+var c={}
+var dx=Math.cos(v)*d;
+var z= Math.sin(v)*d+p0.z;
+var x=Math.cos(a)*dx+p0.x;
+var y=Math.sin(a)*dx+p0.y;
+c.x=x;
+c.y=y
+c.z=z;
+c.azimuth=a;
+c.zenith=v;
+c.distance=d;
+c.basePoint=p0;
+
+return c;
+}
+
+finishp = function(obs){
+alert (this.name)
+var o=JSON.parse(obs)
+var d=prompt ("Distance ",1)*1
+o.coordenates=getCoords (o.a,o.v,d,o.p0)
+this.name=JSON.stringify(o)
+
+alert (JSON.stringify (o))
+
+var dot=crDot(params={d:.5,texture:"",color:0xaaaaaa});
+esena.add(dot);
+dot.position.set(o.coordenates.x,o.coordenates.y,o.coordenates.z)
+//can3d
+
+}
+
+function prepareCom(ctx){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+img.src='https://www.freeiconspng.com/thumbs/compass-rose-png/compass-rose-png-13.png';
+img.onload=function(){ctx.drawImage(img,cx-r,cy-r,r*2,r*2)}
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+
+}
+function prepareLevV(ctx){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+drawL(ctx,100,100,100,1)
+
+};
+function prepareLevH(ctx){
+
+ctx.clearRect(0,0,ctx.width,ctx.height)
+ ctx.width=500;
+ctx.height=500;
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+drawL(ctx,100,100,100,4)
+
+
+};
+
+function prepareLevB(ctx){
+
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+drawL(ctx,100,100,100,2)
+    
+}
+
+
+selmopc = function (v){
+
+if(v==="show Points dlg"){
+    setPP();
+var ss=localStorage.getItem("obglocal");
+if(ss!=null){
+obg=JSON.parse(ss);
+
+ setUpPoints();
+}
+
+dpsts.style.display="block";
+}
+
+
+if(v==="capture obs"){
+var id="a";
+if(canvas.capobj===null) id=prompt("Type serial id","a")
+ canvas.capobj={"id":id,"obs":[]};
+alert("ddd "+JSON.stringify(canvas.capobj));
+
+}
+//else canvas.capobj=null;
+
+
+
+if(v==="Save obs serie" && canvas.capobj!=null && canvas.capobj!=undefined){
+//aqui save
+if(confirm("Save all obs series?\n\n"+JSON.stringify(canvas.capobj))){
+obg.obs.push(canvas.capobj.obs);
+local.storage.setItem("obglocal",JSON.stringify(obg));
+setUpdObs();
+alert("save and set up obs");
+}
+if(confirm("Do you want to delete all temporal obs series?")) canvas.capobj=null;
+
+}
+
+
+if(v==="show Obs"){
+    setupOO()
+var ss=localStorage.getItem("obglocal");
+if(ss!=null){
+obg=JSON.parse(ss);
+ setUpObs();
+}
+
+dpsts.style.display="block";
+}
+ msg=v;
+onmen.click();
+
+}
+sin = function(a){
+return Math.sin(a*Math.PI/180)
+}
+
+ asin = function(v){
+return Math.asin(v)*180/Math.PI;
+
+}
+
+ cos = function(a){
+return Math.cos(a*Math.PI/180)
+}
+
+ acos = function(v){
+return Math.acos(v)*180/Math.PI
+}
+
+
+ tan = function(a){
+return Math.tan(a*Math.PI/180)
+}
+
+atan = function(v){
+return Math.atan(v)*180/Math.PI
+}
+
+
+sqrt = function(v){
+return Math.sqrt(v);
+}
+
+pause=function (){aud.pause()
+//aud.pause();aud.currentTime = 0;
+}
+
+var s=`
+
+<audio id="aud" click="this.play()"  onload="setTimeout(function(){pause()},10);" src="https://www.pacdv.com/sounds/interface_sound_effects/beep-11.wav" type="audio/mp3" autoplay></audio>`
+
+container.innerHTML=s+`
+Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6387">Pixabay</a>
+`	
+
+
+
+
+function speak(txt){
+////////////////////////
+ // Create a SpeechSynthesisUtterance
+  const utterance = new SpeechSynthesisUtterance(txt);
+
+  // Select a voice
+  const voices = speechSynthesis.getVoices();
+  utterance.voice = voices[0]; // Choose a specific voice
+
+  // Speak the text
+  speechSynthesis.speak(utterance);
+
+}
+selPoint = function(p){
+
+ 
+
+alert(p)
+
+}
+
+ setUpPoints = function(){ 
+
+pfrom.innerHTML="<option>From</option.";
+    pto.innerHTML="<option>To</option>"
+var ps=obg.points;
+var s="";
+
+for(var i=0;i<ps.length;i++){
+if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
+
+}
+  
+    pfrom.innerHTML="<option>From</option>"+s;
+    pto.innerHTML="<option>To</option>"+s;
+
+}
+
+ selto = function(v){
+//alert(v);
+for(var i=0;i<obg.points.length;i++){
+var p=obg.points[i]
+    if(p.id===v){ pfrom.punto=p;calccoord()}
+}
+ }
+ setUpObs = function(){ 
+
+pfrom.innerHTML="<option>From</option.";
+  
+var ps=obg.obs;
+var s="";
+
+for(var i=0;i<ps.length;i++){
+if(ps[i].id!=undefined) s+="<option>"+ps[i].id+"</option>";
+
+}
+  
+    pfrom.innerHTML="<option>From</option>"+s;
+}
+
+
+ selfrom = function (v){
+//alert(v)
+for(var i=0;i<obg.points.length;i++){
+var p=obg.points[i]
+
+    if(p.id===v){
+ pto.punto=p;
+calccoord()}
+}
+}
+calccoord = function(){
+    var a,b;
+//alert(pfrom.punto)
+    if(pfrom.punto!=undefined) a=pfrom.punto;
+    else {alert("choose 'from point'");return}
+    if(pto.punto!=undefined) b=pto.punto;
+    else {alert("Choose 'to point'");return}
+
+    var obs=Mat.getObsG(a,b);
+    
+alert(JSON.stringify(obs));
+respts.value=JSON.stringify(obs).replace(/"/g," ").replace(/,/g,"\n");
+
+
+}
+
+
+
+delPts = function(){ 
+if(confirm("are you sure you want to delete all points?")){
+alert("all points has be deleted");
+
+obg.points=[];
+so=JSON.stringify(obg);
+
+localStorage.setItem("obglocal",so);
+setUpPoints();
+
+}
+}
+
+
+setPP = function(){
+dpsts.innerHTML=`
+<select id="pfrom" oninput="selfrom(this.value)"><option>From</option></select>
+<select id="pto"oninput="selto(this.value)"><option>To</option></select>
+<textarea id="respts" style="width:80%;height:70%;"></textarea>
+
+    <br>
+    <button onclick="delPts()">Delete points</button>
+    <button onclick="dpsts.style.display='none'">Close</button>
+
+
+`
+
+}
+
+setupOO = function(){
+dpsts.innerHTML=`
+<select id="pfrom" oninput="selfrom(this.value)"><option>Obs</option></select>
+
+<textarea id="respts" style="width:80%;height:70%;"></textarea>
+
+    <br>
+   
+    <button onclick="dpsts.style.display='none'">Close</button>
+
+
+`
+}
+
+}
